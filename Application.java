@@ -21,10 +21,10 @@ public class Application {
 			
 			String productName = "";
 			
-			Object IVendorCreator = getIVenderPlugin("IVender");
+			Object IVendorCreator = getIVendorPlugin("IVendor");
 			
 			if(IVendorCreator != null) {
-				if(IVendorCreator instanceof IVender) {
+				if(IVendorCreator instanceof IVendor) {
 					productName = ((IVendor)IVendorCreator).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
 					System.out.println(productName);
 				}
@@ -32,7 +32,7 @@ public class Application {
 		
 	}
 	
-	private static Object getIVenderPlugin(String interfaceName){
+	private static Object getIVendorPlugin(String interfaceName){
 		Object object;
 		try {
 			if(plugins != null) {
@@ -82,8 +82,8 @@ public class Application {
 			JSONArray figure = (JSONArray)parser.parse(new FileReader("config.json"));
 			
 			for(Object o : figure) {
-				JSONObject venderList = (JSONObject) o;
-				JSONArray plugins = (JSONArray)venderList.get("plugins");
+				JSONObject vendorList = (JSONObject) o;
+				JSONArray plugins = (JSONArray)vendorList.get("plugins");
 				
 				for(Object c : plugins) {
 					allVendors.add((String)c);
