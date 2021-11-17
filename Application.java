@@ -21,11 +21,11 @@ public class Application {
 			
 			String productName = "";
 			
-			Object IVenderCreator = getIVenderPlugin("IVender");
+			Object IVendorCreator = getIVenderPlugin("IVender");
 			
-			if(IVenderCreator != null) {
-				if(IVenderCreator instanceof IVender) {
-					productName = ((IVendor)IVenderCreator).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
+			if(IVendorCreator != null) {
+				if(IVendorCreator instanceof IVender) {
+					productName = ((IVendor)IVendorCreator).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
 					System.out.println(productName);
 				}
 			}
@@ -74,7 +74,7 @@ public class Application {
 	}
 	
 	private static ArrayList<String> LoadPlugins(){
-		ArrayList<String> allVenders = new ArrayList<String>();
+		ArrayList<String> allVendors = new ArrayList<String>();
 		
 		JSONParser parser = new JSONParser();
 		
@@ -86,7 +86,7 @@ public class Application {
 				JSONArray plugins = (JSONArray)venderList.get("plugins");
 				
 				for(Object c : plugins) {
-					allVenders.add((String)c);
+					allVendors.add((String)c);
 				}				
 			}
 			
@@ -98,9 +98,9 @@ public class Application {
             e.printStackTrace();
         }
 		
-		if(allVenders.size() == 0) 
+		if(allVendors.size() == 0) 
 			return null;
 		else
-			return allVenders;
+			return allVendors;
 	} 
 }
