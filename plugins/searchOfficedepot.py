@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
- 
+import sys
+
 def search(URL):
     HEADERS = ({'User-Agent':
                 'Mozilla/5.0 (X11; Linux x86_64)'
@@ -15,14 +16,13 @@ def search(URL):
                       "itemprop": "name", "auid": "sku-heading", "role": "heading", "aria-level": "1" })
     title_value = title.string
     title_string = title_value.strip().replace(',', '')
-    print("Title:", title_string)
+    print(title_string)
 
     price_code = soup.find("span", attrs={"class": "od-graphql-price-big-price"})
     price = price_code.string
-    print("Price:", price)
+    print(price)
 
-
-
+# url = sys.argv[1]
 url = "https://www.officedepot.com/a/products/6981096/LG-27-UltraGear-Full-HD-IPS/"
 search(url)
  
