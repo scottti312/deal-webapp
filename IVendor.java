@@ -1,3 +1,5 @@
+import java.util.*;
+
 public interface IVendor {
-    String search(String url);
+    Map<String, String> search(String url);
 }
