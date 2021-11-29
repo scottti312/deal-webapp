@@ -1,4 +1,7 @@
+
+package dealsapplicatioin;
 import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
@@ -8,6 +11,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.util.*;
 import java.lang.reflect.*;
+
 
 
 public class Application {
@@ -20,51 +24,68 @@ public class Application {
 			
 			String productName = "";
 			
-			Object IVendorCreator = getIVendorPlugin("IVendor");
+
+			String interfaceName = "dealsapplicatioin.IVendor";
+			List<Object> IVendorCreator = getIVendorPlugin(interfaceName);
 			
 			if(IVendorCreator != null) {
-				if(IVendorCreator instanceof IVendor) {
-					productName = ((IVendor)IVendorCreator).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
-					System.out.println(productName);
+				for(Object oneIVendor : IVendorCreator) {
+					if(oneIVendor instanceof IVendor) {
+						productName = ((IVendor)oneIVendor).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
+						System.out.println(productName);
+					}
+
 				}
 			}
 		
 	}
 	
-	private static Object getIVendorPlugin(String interfaceName){
-		Object object;
+
+	private static List<Object> getIVendorPlugin(String interfaceName){		
+		List<Object> objectList = new LinkedList<Object>();
+		
+		
 		try {
-			if(plugins != null) {
-			
-			
+			if(plugins != null) {			
 				for(String s : plugins) {
-					Class c = s.getClass();
-					Class[] theInterfaces = c.getInterfaces();
-					for(int i = 0; i < theInterfaces.length; i++) {
-						String name = theInterfaces[i].getName();
-						if(name == interfaceName) {
-							object = Class.forName(s).getConstructor().newInstance();
-							if(object != null)
-								return object;}
-					}
+					String fileName = s.replaceFirst("[.][^.]+$", "");
+					String packageName = "dealsapplicatioin";
+					String fullPath = packageName + '.' + fileName;
+					
+					
+							Class c = Class.forName(fullPath);
+							Class[] theInterfaces = c.getInterfaces();
+							
+							for(int i = 0; i < theInterfaces.length; i++) {
+								String name = theInterfaces[i].getName();
+								if(name == interfaceName) {
+									Object oneObject = c.newInstance();
+									if(oneObject != null)
+										objectList.add(oneObject);
+								}
+							}
+					
 				
+					
 				}
+				
+				if(objectList.size() != 0)
+					return objectList;
 			}
-	
-		} catch (InstantiationException e) {
+			
+			
+			
+		}catch (InstantiationException e) {
 		    throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
+		  } catch (IllegalAccessException e) {
 		    throw new RuntimeException(e);
-		} catch (IllegalArgumentException e) {
+		  } catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException(e);			
-		} catch (InvocationTargetException e) {
+		}catch (SecurityException e) {
 			throw new RuntimeException(e);
-		} catch (NoSuchMethodException e) {
+		} catch(ClassNotFoundException e) {
 			throw new RuntimeException(e);
-		} catch (SecurityException e) {
-			new RuntimeException(e);
-		} catch (ClassNotFoundException e) {
-			new RuntimeException(e);
+
 		}
 		
 		return null;
@@ -76,7 +97,11 @@ public class Application {
 		JSONParser parser = new JSONParser();
 		
 		try {
-			JSONArray figure = (JSONArray)parser.parse(new FileReader("config.json"));
+
+			Object obj = parser.parse(new FileReader("config.json"));
+			JSONArray figure = new JSONArray();
+			figure.add(obj);
+
 			
 			for(Object o : figure) {
 				JSONObject vendorList = (JSONObject) o;
