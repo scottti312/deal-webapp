@@ -1,3 +1,4 @@
+
 package dealsapplicatioin;
 import java.io.FileNotFoundException;
 
@@ -23,6 +24,7 @@ public class Application {
 			
 			String productName = "";
 			
+
 			String interfaceName = "dealsapplicatioin.IVendor";
 			List<Object> IVendorCreator = getIVendorPlugin(interfaceName);
 			
@@ -32,11 +34,13 @@ public class Application {
 						productName = ((IVendor)oneIVendor).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
 						System.out.println(productName);
 					}
+
 				}
 			}
 		
 	}
 	
+
 	private static List<Object> getIVendorPlugin(String interfaceName){		
 		List<Object> objectList = new LinkedList<Object>();
 		
@@ -81,6 +85,7 @@ public class Application {
 			throw new RuntimeException(e);
 		} catch(ClassNotFoundException e) {
 			throw new RuntimeException(e);
+
 		}
 		
 		return null;
@@ -92,9 +97,11 @@ public class Application {
 		JSONParser parser = new JSONParser();
 		
 		try {
+
 			Object obj = parser.parse(new FileReader("config.json"));
 			JSONArray figure = new JSONArray();
 			figure.add(obj);
+
 			
 			for(Object o : figure) {
 				JSONObject vendorList = (JSONObject) o;
