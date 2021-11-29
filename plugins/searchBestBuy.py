@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-
+import sys
 
 def search(URL):
     HEADERS = ({'User-Agent':
@@ -16,11 +16,11 @@ def search(URL):
 
     title_value = title.string
     title_string = title_value.strip().replace(',', '')
-    print("Title:", title_string)
+    print(title_string)
 
     price_code = soup.find("div", {"class": "priceView-hero-price priceView-customer-price"})
-    print("Price:", price_code.span.string)
+    print(price_code.span.string)
 
-
-url = "https://www.bestbuy.com/site/samsung-odyssey-g7-28-ips-1ms-4k-uhd-freesync-g-sync-compatible-gaming-monitor-with-hdr-black/6463480.p?skuId=6463480"
+url = sys.argv[1]
+# url = "https://www.bestbuy.com/site/samsung-odyssey-g7-28-ips-1ms-4k-uhd-freesync-g-sync-compatible-gaming-monitor-with-hdr-black/6463480.p?skuId=6463480"
 search(url)

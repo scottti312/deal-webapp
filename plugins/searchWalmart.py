@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-
+import sys
 
 def search(URL):
     HEADERS = ({'User-Agent':
@@ -16,12 +16,12 @@ def search(URL):
 
     title_value = title.string
     title_string = title_value.strip().replace(',', '')
-    print("Title:", title_string)
+    print(title_string)
 
     price_code = soup.find("span", {"itemprop": "price"})
     price = price_code.string
-    print("Price:", price)
+    print(price)
 
-
-url = "https://www.walmart.com/ip/Sceptre-40-Class-FHD-1080P-LED-TV-X405BV-FSR/683540269"
+url = sys.argv[1]
+# url = "https://www.walmart.com/ip/Sceptre-40-Class-FHD-1080P-LED-TV-X405BV-FSR/683540269"
 search(url)
