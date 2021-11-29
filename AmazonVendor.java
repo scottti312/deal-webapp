@@ -6,7 +6,7 @@ public class AmazonVendor implements IVendor{
         String cmd = "python searchAmazon.py";
         Map<String, String> dict = new HashMap<>();
         try {
-            ProcessBuilder pb = new ProcessBuilder("python", "searchAmazon.py");
+            ProcessBuilder pb = new ProcessBuilder("python", "plugins/searchAmazon.py");
             Process p = pb.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String ret = in.readLine();
