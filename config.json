@@ -1,5 +1,5 @@
 {
     "plugins": [
-      "AmazonVendor.java"
+      "AmazonVendor.java, BestBuyVendor.java, NeweggVendor.java, OfficeDepotVendor.java, TargetVendor.java, WalmartVendor.java"
     ]
 }
