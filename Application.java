@@ -1,4 +1,3 @@
-
 package dealsapplicatioin;
 import java.io.FileNotFoundException;
 
@@ -22,25 +21,30 @@ public class Application {
 		
 			plugins = LoadPlugins();
 			
-			String productName = "";
+			List<Map<String, String>> productList = new LinkedList<Map<String, String>>();
 			
-
-			String interfaceName = "dealsapplicatioin.IVendor";
+			String interfaceName = "plugins.IVendor";
 			List<Object> IVendorCreator = getIVendorPlugin(interfaceName);
 			
 			if(IVendorCreator != null) {
 				for(Object oneIVendor : IVendorCreator) {
 					if(oneIVendor instanceof IVendor) {
-						productName = ((IVendor)oneIVendor).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
-						System.out.println(productName);
+						Map<String, String> product = ((IVendor)oneIVendor).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
+						productList.add(product);
 					}
-
+				}
+			}
+			
+			if(productList.size() != 0) {
+				for(Map<String, String> oneProduct : productList) {
+					for(String key : oneProduct.keySet()) {
+						System.out.println(key + " : " + oneProduct.get(key));
+					}
 				}
 			}
 		
 	}
 	
-
 	private static List<Object> getIVendorPlugin(String interfaceName){		
 		List<Object> objectList = new LinkedList<Object>();
 		
@@ -49,7 +53,7 @@ public class Application {
 			if(plugins != null) {			
 				for(String s : plugins) {
 					String fileName = s.replaceFirst("[.][^.]+$", "");
-					String packageName = "dealsapplicatioin";
+					String packageName = "plugins";
 					String fullPath = packageName + '.' + fileName;
 					
 					
@@ -85,7 +89,6 @@ public class Application {
 			throw new RuntimeException(e);
 		} catch(ClassNotFoundException e) {
 			throw new RuntimeException(e);
-
 		}
 		
 		return null;
@@ -97,11 +100,9 @@ public class Application {
 		JSONParser parser = new JSONParser();
 		
 		try {
-
 			Object obj = parser.parse(new FileReader("config.json"));
 			JSONArray figure = new JSONArray();
 			figure.add(obj);
-
 			
 			for(Object o : figure) {
 				JSONObject vendorList = (JSONObject) o;
