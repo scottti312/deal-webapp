@@ -1,11 +1,10 @@
-package Userlogin;
+package user_login;
 import java.security.NoSuchAlgorithmException;  
 import java.security.MessageDigest;  
 
 public class PassEncryption   
 {  
-    public static void main(String[] args) {  
-        String password = "myPassword";
+    public String encrypt(String password) {  
         String encryptedpassword = null;
         try {
             MessageDigest m = MessageDigest.getInstance("MD5");   
@@ -20,7 +19,6 @@ public class PassEncryption
         catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        System.out.println("Plain-text password: " + password);
-        System.out.println("Encrypted password using MD5: " + encryptedpassword);
+        return encryptedpassword;
     }
 }

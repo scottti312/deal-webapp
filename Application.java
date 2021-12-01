@@ -1,7 +1,5 @@
 
-package dealsapplicatioin;
 import java.io.FileNotFoundException;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
@@ -9,35 +7,32 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import plugins.IVendor;
 import java.util.*;
 import java.lang.reflect.*;
-
-
 
 public class Application {
 	
 	private static ArrayList<String> plugins = null;
 	
 	public static void main(String args[]) {
-		
 			plugins = LoadPlugins();
-			
-			String productName = "";
-			
 
+			Map<String, String> product;
 			String interfaceName = "dealsapplicatioin.IVendor";
 			List<Object> IVendorCreator = getIVendorPlugin(interfaceName);
 			
 			if(IVendorCreator != null) {
 				for(Object oneIVendor : IVendorCreator) {
 					if(oneIVendor instanceof IVendor) {
-						productName = ((IVendor)oneIVendor).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
-						System.out.println(productName);
+						product = ((IVendor)oneIVendor).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
+						System.out.println(product.get("Vendor"));
+						System.out.println(product.get("Title"));
+						System.out.println(product.get("Price"));
 					}
 
 				}
 			}
-		
 	}
 	
 
@@ -49,9 +44,9 @@ public class Application {
 			if(plugins != null) {			
 				for(String s : plugins) {
 					String fileName = s.replaceFirst("[.][^.]+$", "");
-					String packageName = "dealsapplicatioin";
+					String packageName = "plugins";
 					String fullPath = packageName + '.' + fileName;
-					
+					System.out.println(fullPath);
 					
 							Class c = Class.forName(fullPath);
 							Class[] theInterfaces = c.getInterfaces();
@@ -112,11 +107,7 @@ public class Application {
 				}				
 			}
 			
-		}catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+		}catch (Exception e) {
             e.printStackTrace();
         }
 		

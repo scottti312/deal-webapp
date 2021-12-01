@@ -1,15 +1,17 @@
+package plugins;
+
 import java.io.*;
 import java.util.*;
 
-public class PluginSearch{
-    public Map<String, String> search(String url, String vendor) {
+public class NeweggVendor {
+    public Map<String, String> search(String url) {
         Map<String, String> dict = new HashMap<>();
-        dict.put("Vendor", vendor);
+        dict.put("Vendor", "Newegg");
         // The url must be surrounded by "" quotation marks
         url = String.format("\"%s\"", url);
         try {
             // Runs the command "python plugins/search(Amazon, BestBuy, etc.).py "url""
-            ProcessBuilder pb = new ProcessBuilder("python", String.format("plugins/search%s.py", vendor), url);
+            ProcessBuilder pb = new ProcessBuilder("python", String.format("plugins/searchNewegg.py"), url);
             Process p = pb.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             // Reads the returning strings printed from the python file
