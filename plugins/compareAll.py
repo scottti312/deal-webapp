@@ -4,7 +4,7 @@ import searchNewegg as ne
 import searchOfficeDepot as od
 import searchWalmart as wm
 
-query = 'iphone'
+query = 'wh-1000xm4'
 
 print("Amazon: ")
 am.search(am.find(query))

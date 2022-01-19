@@ -47,10 +47,9 @@ def find(query):
     for link in soup.find_all('a', attrs={'href': re.compile("(^(?!.*http).*)qid=")}):
         links.append(link.get('href'))
         # number += 1
-    print(links)
     resultlink = "https://www.amazon.com" + links[0]
     return resultlink
 
 
-print(find("iphone"))
+# print(find("iphone"))
 # print(search(find("apple watch")))
