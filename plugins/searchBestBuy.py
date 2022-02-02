@@ -20,6 +20,9 @@ def search(URL):
     price_code = soup.find("div", {"class": "priceView-hero-price priceView-customer-price"})
     print(price_code.span.string)
 
+    img = soup.find("img", attrs={"class": "primary-image"})
+    print(img.get("src"))
+
 def find(query):
     HEADERS = ({'User-Agent':
                     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.137 Safari/537.36',
@@ -36,3 +39,9 @@ def find(query):
         # number += 1
     resultlink = "https://www.bestbuy.com" + links[0]
     return resultlink
+
+
+if '.com' in sys.argv[1]:
+    search(sys.argv[1])
+else:
+    print(find(sys.argv[1]))

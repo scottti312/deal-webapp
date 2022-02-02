@@ -17,6 +17,8 @@ public class PluginSearch{
             dict.put("Title", ret);
             ret = in.readLine();
             dict.put("Price", ret);
+            ret = in.readLine();
+            dict.put("Image", ret);
             in.close();
         }
         catch(IOException ex){
