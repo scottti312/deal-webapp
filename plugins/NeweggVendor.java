@@ -3,7 +3,7 @@ package plugins;
 import java.io.*;
 import java.util.*;
 
-public class NeweggVendor {
+public class NeweggVendor implements IVendor {
     public Map<String, String> search(String url) {
         Map<String, String> dict = new HashMap<>();
         dict.put("Vendor", "Newegg");
@@ -27,5 +27,18 @@ public class NeweggVendor {
             System.out.println(ex);
         }
         return dict;
+    }
+
+    public String find(String query) {
+        String url = "";
+        try {
+            ProcessBuilder pb = new ProcessBuilder("python", String.format("plugins/searchNewegg.py"), query);
+            Process p = pb.start();
+            BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            url = in.readLine();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        return url;
     }
 }

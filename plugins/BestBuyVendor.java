@@ -28,4 +28,17 @@ public class BestBuyVendor implements IVendor{
         }
         return dict;
     }
+
+    public String find(String query) {
+        String url = "";
+        try {
+            ProcessBuilder pb = new ProcessBuilder("python", String.format("plugins/searchBestBuy.py"), query);
+            Process p = pb.start();
+            BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            url = in.readLine();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        return url;
+    }
 }

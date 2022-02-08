@@ -58,6 +58,6 @@ def find(query):
 #     search(sys.argv)
 # else: 
 #     find(str(sys.argv))
-find("wh-1000xm4")
-# search('https://www.amazon.com/Sony-WH-1000XM4-Canceling-Headphones-Ultra-Portable/dp/B08GKWXRF4/ref=sr_1_3?crid=24NDRRP0SL357&keywords=wh-1000xm4&qid=1643764958&sprefix=wh-1000xm4%2Caps%2C130&sr=8-3')
+# find("wh-1000xm4")
+search('https://www.amazon.com/Sony-WH-1000XM4-Canceling-Headphones-Ultra-Portable/dp/B08GKWXRF4/ref=sr_1_3?crid=24NDRRP0SL357&keywords=wh-1000xm4&qid=1643764958&sprefix=wh-1000xm4%2Caps%2C130&sr=8-3')
 # print(search(find("apple watch")))

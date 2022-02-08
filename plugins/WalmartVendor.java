@@ -3,7 +3,7 @@ package plugins;
 import java.io.*;
 import java.util.*;
 
-public class WalmartVendor {
+public class WalmartVendor implements IVendor {
     public Map<String, String> search(String url) {
         Map<String, String> dict = new HashMap<>();
         dict.put("Vendor", "Walmart");
@@ -27,5 +27,18 @@ public class WalmartVendor {
             System.out.println(ex);
         }
         return dict;
+    }
+
+    public String find(String query) {
+        String url = "";
+        try {
+            ProcessBuilder pb = new ProcessBuilder("python", String.format("plugins/searchWalmart.py"), query);
+            Process p = pb.start();
+            BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            url = in.readLine();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        return url;
     }
 }
