@@ -1,5 +1,8 @@
 {
   "plugins": [
-    "AmazonVendor.java", "TargetVendor.java"
-  ]
+{"name": "AmazonVendor.jar",
+       "active": 1},
+{"name": "TargetVendor.jar",
+       "active": 1}                 
+ ]
 }
