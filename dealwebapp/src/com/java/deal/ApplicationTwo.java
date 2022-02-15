@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import com.java.dealinterface.IVendor;
@@ -32,38 +33,39 @@ public class ApplicationTwo {
 		return str;
 	}
 	
-	public String searchProduct(String productName){
+	public JSONObject searchProduct(String productName){
 		plugins = LoadPlugins();
-		String result = "";
-		//LinkedList<Map<String, String>> productList = new LinkedList<Map<String, String>>();
-		//ArrayList<String> productList = new ArrayList<String>();
+		
+		
 		String interfaceName = "com.java.dealinterface.IVendor";
 		List<IVendor> IVendorCreator = getIVendorPlugin(interfaceName);
 		
+		JSONObject productJson = new JSONObject();
+		
 		if(IVendorCreator != null) {
 			for(int i = 0; i < IVendorCreator.size(); i++) {
-				//if(oneIVendor instanceof IVendor) {
-					//Map<String, String> product = ((IVendor)oneIVendor).search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
+				
 				IVendor oneIVendor = IVendorCreator.get(i);	
-				String product = oneIVendor.search("https://www.amazon.com/Dell-OptiPlex-Desktop-Complete-Computer/dp/B00IOTZGOE/ref=sr_1_3?keywords=computer&qid=1636880460&sr=8-3");
-					//productList.add(product);
-					result += product + ";";
-				//}
+				Map<String, String> product = oneIVendor.search(productName);
+				String vendorName = "";
+				JSONObject subJson = new JSONObject();
+				
+				for(String item : product.keySet()) {
+					
+					if(item.equals("vendor")) {
+						vendorName += product.get(item);
+					}else{
+						subJson.put(item, product.get(item));
+					}				
+				}
+				
+				productJson.put(vendorName, subJson);
+					
 			}
 		}
 		
-		/*if(productList.size() != 0) {
-			for(Map<String, String> oneProduct : productList) {
-				for(String key : oneProduct.keySet()) {
-					System.out.println(key + " : " + oneProduct.get(key));
-				}
-			}
-		}
-		if(productList.size() != 0)
-			return productList;
-		else
-			return null;*/
-		return result;
+		
+		return productJson;
 	}
 	
 	
@@ -75,7 +77,7 @@ public class ApplicationTwo {
 			if(plugins != null) {			
 				for(String s : plugins) {
 					
-					String fullPath = "C:\\Users\\Ke_Surface\\Documents\\BC\\" + s;
+					String fullPath = "plugins\\" + s;
 					String className = s.replaceFirst("[.][^.]+$", "");
 					
 					try {
@@ -87,8 +89,7 @@ public class ApplicationTwo {
 						
 						
 						IVendor oneObject = (IVendor)loadedClass.newInstance();
-						String product = oneObject.search("111");
-						System.out.println(product);
+						
 						if(oneObject != null)
 							objectList.add(oneObject);
 					}catch(Exception e){
@@ -116,7 +117,7 @@ public class ApplicationTwo {
 		JSONParser parser = new JSONParser();
 		
 		try {
-			Object obj = parser.parse(new FileReader("C:\\Users\\Ke_Surface\\Documents\\BC\\workspace\\dealwebapp\\config.json"));
+			Object obj = parser.parse(new FileReader("config.json"));
 			JSONArray figure = new JSONArray();
 			figure.add(obj);
 			
@@ -125,7 +126,17 @@ public class ApplicationTwo {
 				JSONArray plugins = (JSONArray)vendorList.get("plugins");
 				
 				for(Object c : plugins) {
-					allVendors.add((String)c);
+					JSONObject onePluginList = (JSONObject) c;
+					JSONArray onePlugin = new JSONArray();
+					onePlugin.add(onePluginList);
+					
+					for(Object e : onePlugin) {
+						JSONObject singlePlugin = (JSONObject) e;
+						String vendorName = (String)singlePlugin.get("name");
+					allVendors.add(vendorName);
+					}
+					
+					
 				}				
 			}
 			
