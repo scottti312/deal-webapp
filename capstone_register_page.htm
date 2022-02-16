@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+section {
+  display: -webkit-flex;
+  display: flex;
+  flex-shrink: 1;
+}
+logo {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding-left: 20px;
+}
+search {
+  -webkit-flex: 8;
+  -ms-flex: 8;
+  flex: 8;
+  padding: 50px 0px 0px 0px;
+  text-align: center
+}
+login {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding-right: 25px;
+  padding-top: 20px;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  section {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+}
+
+nav {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background-color: #95ffe0;
+  border-style: solid hidden;
+}
+box {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  font-size: 17px;
+}
+divider {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  border-style: hidden hidden solid hidden;
+}
+header {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background-color: #DEDEDE;
+  border: none;
+  font-size: 25px;
+  padding: 3px 0px 2px 15px;
+}
+
+.boxed {
+  background-color: #FF7171;
+  border: solid 1px;
+  width: 30%;
+}
+redbox {
+  font-size: 18px;
+  padding: 15px 50px 15px 50px;
+}
+
+</style>
+<script type = "text/javascript" src = "DealsScript.js"></script>
+</head>
+
+<body style="background-color:white;">
+
+<section>
+  <logo>
+   <p style="text-align:left;"><img src="Deal!.png" alt="Deal! logo" height=100px width=95px></p>
+  </logo>
+ <search>
+   <form id="form"> 
+    <input type="search" id="query" name="q" placeholder="Search..." size=60>
+    <button>Search</button>
+   </form>
+ </search>
+  <login>
+   <p><a href="capstone_login_page.htm">Login</a></p>
+   <p><a href="capstone_register_page.htm">Register</a></p>
+  </login>
+</section>
+<section> 
+ <nav>
+  <box>
+   <a class="active" href="capstone_main_page.htm">Home</a>
+  </box>
+  <box>
+   <a href="#sales">Sales</a>
+  </box>
+  <box>
+   <a href="#saved_products">Saved Products</a>
+  </box>
+ </nav>
+</section><section><divider><p></p></divider></section>
+<section><header>Register</header></section>
+<section><p></p></section>
+
+<center><div class="boxed"><redbox>
+   <p>Username<br>
+   <input type="search" id="query" name="q" size=40></p>
+   <p>Email<br>
+   <input type="search" id="query" name="q" size=40></p>
+   <p>Password<br>
+   <input type="search" id="query" name="q" size=40></p>
+   <p>Confirm Password<br>
+   <input type="search" id="query" name="q" size=40></p>
+   <center><button>Register</button></center>
+</redbox></div></center>
+
+
+
+</body>
+</html>
