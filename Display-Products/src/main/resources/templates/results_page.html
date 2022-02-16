@@ -115,7 +115,15 @@ header {
 <section><divider><p></p></divider></section>
 <section><header>Home</header></section>
 
-<h1 th:text="${product_name}"/>
+ <th:block th:each="vendor : ${vendors}">
+  <ul>
+   <li th:if="${!vendor.getString(&quot;id&quot;).equals(&quot;null&quot;)}" th:text="${vendor.getString(&quot;id&quot;)}"></li>
+   <li th:if="${!vendor.getString(&quot;name&quot;).equals(&quot;null&quot;)}" th:text="${vendor.getString(&quot;name&quot;)}"></li>
+   <li th:if="${!vendor.getString(&quot;price&quot;).equals(&quot;null&quot;)}" th:text="${vendor.getString(&quot;price&quot;)}"></li>
+   <img th:if="${!vendor.getString(&quot;image&quot;).equals(&quot;null&quot;)}" th:src="${vendor.getString(&quot;image&quot;)}" width="500" height="600"></img>
+   <li th:if="${!vendor.getString(&quot;link&quot;).equals(&quot;null&quot;)}" th:text="${vendor.getString(&quot;link&quot;)}"></li>
+  </ul>
+ </th:block>
 
 </body>
 </html>
