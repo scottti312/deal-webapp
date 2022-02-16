@@ -22,6 +22,9 @@ def search(URL):
     price = price_code.string
     print(price)
 
+    img = soup.find("img", attrs={"loading": "lazy"})
+    print(img.get("src"))
+
 def find(query):
     HEADERS = ({'User-Agent':
                     # 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0',
@@ -42,6 +45,7 @@ def find(query):
     resultlink = "https://www.walmart.com" + links[0]
     return resultlink
 
-# print(search(find("dell laptop")))
-# find("dell laptop")
-# print(find("dell laptop"))
+if '.com' in sys.argv[1]:
+    search(sys.argv[1])
+else:
+    print(find(sys.argv[1]))

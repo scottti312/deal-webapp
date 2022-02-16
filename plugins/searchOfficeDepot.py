@@ -24,6 +24,10 @@ def search(URL):
     price = price_code.string
     print(price)
 
+    img = soup.find("div", attrs={"class": "image-gallery-image"})
+    img_tag = img.find("img")
+    print(img_tag.get("src"))
+
 
 def find(query):
     HEADERS = ({'User-Agent':
@@ -35,14 +39,16 @@ def find(query):
     soup = BeautifulSoup(webpage.content, "lxml")
 
     links = []
-    # number = 0
     for link in soup.find_all('a', attrs={'href': re.compile("/a/products/")}):
-        # if 'amazon' in link:
         links.append(link.get('href'))
-        # number += 1
     resultlink = ""
     try:
         resultlink = "https://www.officedepot.com" + links[7]
     except IndexError:
         return resultlink
     return resultlink
+
+if '.com' in sys.argv[1]:
+    search(sys.argv[1])
+else:
+    print(find(sys.argv[1]))

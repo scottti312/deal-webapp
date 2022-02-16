@@ -30,7 +30,9 @@ def search(URL):
         price_string = price.string
         print(price.string)
 
-    # return price_string, title_string
+    img = soup.find("img", attrs={"id": "landingImage"})
+    print(img.get("src"))
+
 
 # This url will contain the product search (amazon.com/this+product+search)
 def find(query):
@@ -39,8 +41,7 @@ def find(query):
                     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.137 Safari/537.36',
                     'Accept-Language': 'en-US, en;q=0.5'})
     
-    # URL = "https://www.amazon.com/s?k=" + query
-    URL = "http://www.amazon.com/s?k=wh-1000xm4&crid=24NDRRP0SL357&sprefix=wh-1000xm4%2Caps%2C130&ref=nb_sb_noss"
+    URL = "https://www.amazon.com/s?k=" + query
     webpage = requests.get(URL, headers=HEADERS)
     soup = BeautifulSoup(webpage.content, "lxml")
     print(soup)
@@ -54,10 +55,7 @@ def find(query):
     resultlink = "https://www.amazon.com" + links[0]
     return resultlink
 
-# if '.com' in sys.argv:
-#     search(sys.argv)
-# else: 
-#     find(str(sys.argv))
-# find("wh-1000xm4")
-search('https://www.amazon.com/Sony-WH-1000XM4-Canceling-Headphones-Ultra-Portable/dp/B08GKWXRF4/ref=sr_1_3?crid=24NDRRP0SL357&keywords=wh-1000xm4&qid=1643764958&sprefix=wh-1000xm4%2Caps%2C130&sr=8-3')
-# print(search(find("apple watch")))
+if '.com' in sys.argv[1]:
+    search(sys.argv[1])
+else:
+    print(find(sys.argv[1]))

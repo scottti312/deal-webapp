@@ -4,8 +4,27 @@ import java.io.*;
 import java.util.*;
 
 public class BestBuyVendor implements IVendor{
+    public Map<String, String> searchType(String input) {
+        Map<String, String> productInfo = new HashMap<>();
+        productInfo.put("Title", "None");
+        productInfo.put("Price", "None");
+        productInfo.put("Image", "None");
+        productInfo.put("Link", "None");
+        productInfo.put("Vendor", "BestBuy");
+        if(input.contains(".com")) {
+            // if the input is a link to a product,
+            // get the product info
+            return search(input);
+        } else {
+            // if the input is a general search term,
+            // find the link to a product then get the product info
+            return search(find(input));
+        }
+    }
+
     public Map<String, String> search(String url) {
         Map<String, String> dict = new HashMap<>();
+        dict.put("Link", url);
         dict.put("Vendor", "BestBuy");
         // The url must be surrounded by "" quotation marks
         url = String.format("\"%s\"", url);

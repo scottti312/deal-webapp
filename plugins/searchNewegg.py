@@ -25,6 +25,9 @@ def search(URL):
     price += ''.join(pricea)
     print(price)
 
+    img = soup.find("img", attrs={"class": "product-view-img-original"})
+    print(img.get("src"))
+
 
 def find(query):
     HEADERS = ({'User-Agent':
@@ -36,11 +39,12 @@ def find(query):
     soup = BeautifulSoup(webpage.content, "lxml")
 
     links = []
-    # number = 0
     for link in soup.find_all('a', attrs={'href': re.compile("-_-Product")}):
-        # if 'amazon' in link:
         links.append(link.get('href'))
-        # number += 1
     resultlink = links[0]
     return resultlink
 
+if '.com' in sys.argv[1]:
+    search(sys.argv[1])
+else:
+    print(find(sys.argv[1]))
