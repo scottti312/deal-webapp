@@ -30,7 +30,7 @@ public class TargetVendor implements IVendor {
         url = String.format("\"%s\"", url);
         try {
             // Runs the command "python plugins/search(Amazon, BestBuy, etc.).py "url""
-            ProcessBuilder pb = new ProcessBuilder("python", String.format("plugins/searchTarget.py"), url);
+            ProcessBuilder pb = new ProcessBuilder("python", String.format("python/searchTarget.py"), url);
             Process p = pb.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             // Reads the returning strings printed from the python file
@@ -51,7 +51,7 @@ public class TargetVendor implements IVendor {
     public String getUrl(String query) {
         String url = "";
         try {
-            ProcessBuilder pb = new ProcessBuilder("python", String.format("plugins/searchTarget.py"), query);
+            ProcessBuilder pb = new ProcessBuilder("python", String.format("python/searchTarget.py"), query);
             Process p = pb.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             url = in.readLine();
