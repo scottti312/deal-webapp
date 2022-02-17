@@ -37,11 +37,14 @@ def find(query):
         # if 'amazon' in link:
         links.append(link.get('href'))
         # number += 1
-    resultlink = "https://www.bestbuy.com" + links[0]
+    resultlink = links[0]
+    if '.com' not in links[0]:
+        resultlink = "https://www.bestbuy.com" + links[0]
     return resultlink
 
-if '.com' in sys.argv[1]:
-    search(sys.argv[1])
-else:
-    print(find(sys.argv[1]))
+# if '.com' in sys.argv[1]:
+#     search(sys.argv[1])
+# else:
+#     print(find(sys.argv[1]))
 
+print(find('iphone'))

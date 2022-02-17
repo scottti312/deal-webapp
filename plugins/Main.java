@@ -1,12 +1,11 @@
 package plugins;
 
-import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) {        
         BestBuyVendor bb = new BestBuyVendor();
-        Map<String, String> dict = bb.searchType("wh-1000xm4");
+        Map<String, String> dict = bb.searchType("iphone");
         System.out.println("Vendor: " + dict.get("Vendor"));
         System.out.println("Title: " + dict.get("Title"));
         System.out.println("Price: " + dict.get("Price"));
