@@ -14,15 +14,15 @@ public class OfficeDepotVendor implements IVendor {
         if(input.contains(".com")) {
             // if the input is a link to a product,
             // get the product info
-            return search(input);
+            return getProductInfo(input);
         } else {
             // if the input is a general search term,
             // find the link to a product then get the product info
-            return search(find(input));
+            return getProductInfo(getUrl(input));
         }
     }
 
-    public Map<String, String> search(String url) {
+    public Map<String, String> getProductInfo(String url) {
         Map<String, String> dict = new HashMap<>();
         dict.put("Vendor", "OfficeDepot");
         dict.put("Link", url);
@@ -48,7 +48,7 @@ public class OfficeDepotVendor implements IVendor {
         return dict;
     }
 
-    public String find(String query) {
+    public String getUrl(String query) {
         String url = "";
         try {
             ProcessBuilder pb = new ProcessBuilder("python", String.format("plugins/searchOfficeDepot.py"), query);

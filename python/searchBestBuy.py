@@ -42,9 +42,9 @@ def find(query):
         resultlink = "https://www.bestbuy.com" + links[0]
     return resultlink
 
-# if '.com' in sys.argv[1]:
-#     search(sys.argv[1])
-# else:
-#     print(find(sys.argv[1]))
+if '.com' in sys.argv[1]:
+    search(sys.argv[1])
+else:
+    print(find(sys.argv[1]))
 
-print(find('iphone'))
+# print(find('iphone'))

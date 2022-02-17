@@ -14,15 +14,15 @@ public class BestBuyVendor implements IVendor{
         if(input.contains(".com")) {
             // if the input is a link to a product,
             // get the product info
-            return search(input);
+            return getProductInfo(input);
         } else {
             // if the input is a general search term,
             // find the link to a product then get the product info
-            return search(find(input));
+            return getProductInfo(getUrl(input));
         }
     }
 
-    public Map<String, String> search(String url) {
+    public Map<String, String> getProductInfo(String url) {
         Map<String, String> dict = new HashMap<>();
         dict.put("Link", url);
         dict.put("Vendor", "BestBuy");
@@ -30,7 +30,7 @@ public class BestBuyVendor implements IVendor{
         url = String.format("\"%s\"", url);
         try {
             // Runs the command "python plugins/search(Amazon, BestBuy, etc.).py "url""
-            ProcessBuilder pb = new ProcessBuilder("python", String.format("plugins/searchBestBuy.py"), url);
+            ProcessBuilder pb = new ProcessBuilder("python", String.format("python/searchBestBuy.py"), url);
             Process p = pb.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             // Reads the returning strings printed from the python file
@@ -48,10 +48,10 @@ public class BestBuyVendor implements IVendor{
         return dict;
     }
 
-    public String find(String query) {
+    public String getUrl(String query) {
         String url = "";
         try {
-            ProcessBuilder pb = new ProcessBuilder("python", String.format("plugins/searchBestBuy.py"), query);
+            ProcessBuilder pb = new ProcessBuilder("python", String.format("python/searchBestBuy.py"), query);
             Process p = pb.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             url = in.readLine();
