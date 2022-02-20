@@ -1,7 +1,6 @@
 package com.dealscraper;
 
 import java.io.IOException;
-import java.util.List;
 import java.io.File;
 
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -10,7 +9,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-public class NeweggVendor {
+public class CostcoVendor implements IVendor{
+
     public void generateProductInfo(String url) {
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
@@ -18,24 +18,21 @@ public class NeweggVendor {
         client.getOptions().setUseInsecureSSL(true);
         try {
             HtmlPage page = client.getPage(url);
-            HtmlElement title = page.getFirstByXPath(".//h1[@class='product-title']");
-            List<HtmlElement> priceList = page.getByXPath(".//li[@class='price-current']");
-            String price = "";
-            for(HtmlElement priceElement : priceList) {
-                HtmlElement dollars = priceElement.getFirstByXPath("strong");
-                HtmlElement cents = priceElement.getFirstByXPath("sup");
-                price += dollars.asNormalizedText();
-                price += cents.asNormalizedText();
-            }
-            HtmlElement image = page.getFirstByXPath(".//div[@class='mainSlide']//.//img");
+            HtmlElement title = page.getFirstByXPath(".//h1[@automation-id='productName']");
+            HtmlElement image = page.getFirstByXPath(".//img[@class='img-responsive']");
+            // Costco hides the price on the product page, so instead I grab it from the search page.
+            String newSearchUrl = "https://www.costco.com/CatalogSearch?dept=All&keyword=" + title.asNormalizedText();
+            page = client.getPage(newSearchUrl);
+            HtmlElement price = page.getFirstByXPath(".//div[@automation-id='itemPriceOutput_0']");
+            System.out.println(price);
             Item item = new Item();
             item.setTitle(title.asNormalizedText());
-            item.setPrice(Double.parseDouble(price));
+            item.setPrice(Double.parseDouble(price.asNormalizedText().replace("$", "")));
             item.setImage(image.getAttribute("src"));
-            item.setVendor("Newegg");
+            item.setVendor("Costco");
             item.setLink(url);
             ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(new File("newegg_product.json"), item);
+            mapper.writeValue(new File("costco_product.json"), item);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,12 +44,11 @@ public class NeweggVendor {
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setCssEnabled(false);
         client.getOptions().setUseInsecureSSL(true);
-        String url = "https://www.newegg.com/p/pl?d=" + query;
+        String url = "https://www.costco.com/CatalogSearch?dept=All&keyword=" + query;
         String productUrl = null;
         try {
             HtmlPage page = client.getPage(url);
-            HtmlElement productResult = page.getFirstByXPath(".//div[@class='item-container']//.//a[@class='item-title']");
-            System.out.println(productResult);
+            HtmlElement productResult = page.getFirstByXPath(".//div[@class='product-list grid']//.//a");
             productUrl = productResult.getAttribute("href");
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,4 +56,5 @@ public class NeweggVendor {
         client.close();
         return productUrl;
     }
+    
 }

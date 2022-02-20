@@ -37,4 +37,23 @@ public class BestBuyVendor implements IVendor {
         }
         client.close();
     }
+
+    public String getProductUrl(String query) {
+        WebClient client = new WebClient();
+        client.getOptions().setJavaScriptEnabled(false);
+        client.getOptions().setCssEnabled(false);
+        client.getOptions().setUseInsecureSSL(true);
+        String url = "https://www.bestbuy.com/site/searchpage.jsp?st=" + query;
+        String productUrl = null;
+        try {
+            HtmlPage page = client.getPage(url);
+            HtmlElement productResult = page.getFirstByXPath(".//div[@id='main-results']//.//a");
+            productUrl = productResult.getAttribute("href");
+            productUrl = "https://www.bestbuy.com" + productUrl;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        client.close();
+        return productUrl;
+    }
 }

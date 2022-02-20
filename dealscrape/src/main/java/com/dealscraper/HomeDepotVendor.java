@@ -10,7 +10,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-public class NeweggVendor {
+public class HomeDepotVendor implements IVendor {
+
     public void generateProductInfo(String url) {
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
@@ -18,24 +19,24 @@ public class NeweggVendor {
         client.getOptions().setUseInsecureSSL(true);
         try {
             HtmlPage page = client.getPage(url);
-            HtmlElement title = page.getFirstByXPath(".//h1[@class='product-title']");
-            List<HtmlElement> priceList = page.getByXPath(".//li[@class='price-current']");
-            String price = "";
-            for(HtmlElement priceElement : priceList) {
-                HtmlElement dollars = priceElement.getFirstByXPath("strong");
-                HtmlElement cents = priceElement.getFirstByXPath("sup");
-                price += dollars.asNormalizedText();
-                price += cents.asNormalizedText();
+            HtmlElement productBrand = page.getFirstByXPath(".//span[@class='product-details__brand--link']");
+            if (productBrand == null) {
+                productBrand = page.getFirstByXPath(".//h2[@class='product-details__brand-name']");
+                System.out.println(productBrand);
             }
-            HtmlElement image = page.getFirstByXPath(".//div[@class='mainSlide']//.//img");
+            HtmlElement productName = page.getFirstByXPath(".//h1[@class='product-details__title']");
+            List<HtmlElement> priceElement = page.getByXPath(".//div[@class='price-format__large price-format__main-price']//span");
+            Double price = Double.parseDouble(priceElement.get(1).asNormalizedText()) + 
+                           (Double.parseDouble(priceElement.get(2).asNormalizedText()) / 100);
+            HtmlElement image = page.getFirstByXPath(".//div[@class='mediagallery']//.//img");
             Item item = new Item();
-            item.setTitle(title.asNormalizedText());
-            item.setPrice(Double.parseDouble(price));
+            item.setTitle(productBrand.asNormalizedText() + " " + productName.asNormalizedText());
+            item.setPrice(price);
             item.setImage(image.getAttribute("src"));
-            item.setVendor("Newegg");
+            item.setVendor("HomeDepot");
             item.setLink(url);
             ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(new File("newegg_product.json"), item);
+            mapper.writeValue(new File("homedepot_product.json"), item);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,17 +48,18 @@ public class NeweggVendor {
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setCssEnabled(false);
         client.getOptions().setUseInsecureSSL(true);
-        String url = "https://www.newegg.com/p/pl?d=" + query;
+        String url = "https://www.homedepot.com/s/" + query;
         String productUrl = null;
         try {
             HtmlPage page = client.getPage(url);
-            HtmlElement productResult = page.getFirstByXPath(".//div[@class='item-container']//.//a[@class='item-title']");
-            System.out.println(productResult);
+            HtmlElement productResult = page.getFirstByXPath(".//section[@id='browse-search-pods-1']//.//a[@class='header product-pod--ie-fix']");
             productUrl = productResult.getAttribute("href");
+            productUrl = "https://www.homedepot.com" + productUrl;
         } catch (IOException e) {
             e.printStackTrace();
         }
         client.close();
         return productUrl;
     }
+    
 }
