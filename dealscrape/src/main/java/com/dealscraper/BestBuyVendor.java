@@ -10,6 +10,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class BestBuyVendor implements IVendor {
+    public void searchType(String input) {
+        if (input.contains(".com")) {
+            generateProductInfo(input);
+        } else {
+            generateProductInfo(getProductUrl(input));
+        }        
+    }  
+    
     public void generateProductInfo(String url) {
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
@@ -23,9 +31,10 @@ public class BestBuyVendor implements IVendor {
             // The price is within a span within a div
             HtmlElement price = page.getFirstByXPath(".//div[@class='priceView-hero-price priceView-customer-price']//span[@aria-hidden='true']");
             HtmlElement image = page.getFirstByXPath(".//img[@class='primary-image']");
+            String priceDisplay = price.asNormalizedText().replace(",", "");
             Item item = new Item();
             item.setTitle(title.asNormalizedText());
-            item.setPrice(Double.parseDouble(price.asNormalizedText().replace("$", "")));
+            item.setPrice(Double.parseDouble(priceDisplay.replace("$", "")));
             item.setImage(image.getAttribute("src"));
             item.setVendor("BestBuy");
             item.setLink(url);

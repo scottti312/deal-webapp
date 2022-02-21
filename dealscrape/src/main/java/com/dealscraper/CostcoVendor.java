@@ -10,6 +10,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class CostcoVendor implements IVendor{
+    public void searchType(String input) {
+        if (input.contains(".com")) {
+            generateProductInfo(input);
+        } else {
+            generateProductInfo(getProductUrl(input));
+        }        
+    }  
 
     public void generateProductInfo(String url) {
         WebClient client = new WebClient();

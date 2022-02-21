@@ -8,6 +8,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 // !!!!!!!!!! Currently not working do to captcha bot detection !!!!!!!!!!
 public class WalmartVendor implements IVendor {
+    public void searchType(String input) {
+        if (input.contains(".com")) {
+            generateProductInfo(input);
+        } else {
+            generateProductInfo(getProductUrl(input));
+        }        
+    }  
+    
     public void generateProductInfo(String url) {
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);

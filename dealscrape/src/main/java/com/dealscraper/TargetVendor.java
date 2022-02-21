@@ -17,8 +17,14 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.json.*;
 
 public class TargetVendor implements IVendor {
-
     // final String PATH = "C:\\Program Files (x86)\\chromedriver.exe";
+    public void searchType(String input) {
+        if (input.contains(".com")) {
+            generateProductInfo(input);
+        } else {
+            generateProductInfo(getProductUrl(input));
+        }        
+    }  
 
     public void generateProductInfo(String url) {
         WebClient client = new WebClient();
@@ -38,8 +44,6 @@ public class TargetVendor implements IVendor {
             JSONArray arr = json.getJSONArray("@graph");
             String price = arr.getJSONObject(0).getJSONObject("offers").getString("price");
             String image = driver.findElement(By.xpath("//div[@class='slide--active']//img")).getAttribute("src");
-            // HtmlElement price = page.getFirstByXPath(".//span[@data-test='product-price']");
-            // HtmlElement image = page.getFirstByXPath("//div[@class='slide--active']//img");
             System.out.println(image);
             Item item = new Item();
             item.setTitle(title.asNormalizedText());
