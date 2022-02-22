@@ -29,14 +29,17 @@ public class HomeDepotVendor implements IVendor {
             HtmlElement productBrand = page.getFirstByXPath(".//span[@class='product-details__brand--link']");
             if (productBrand == null) {
                 productBrand = page.getFirstByXPath(".//h2[@class='product-details__brand-name']");
-                System.out.println(productBrand);
             }
             HtmlElement productName = page.getFirstByXPath(".//h1[@class='product-details__title']");
             List<HtmlElement> priceElement = page.getByXPath(".//div[@class='price-format__large price-format__main-price']//span");
             Double price = Double.parseDouble(priceElement.get(1).asNormalizedText()) + 
                            (Double.parseDouble(priceElement.get(2).asNormalizedText()) / 100);
             HtmlElement image = page.getFirstByXPath(".//div[@class='mediagallery']//.//img");
-            item.put("title", productBrand.asNormalizedText() + " " + productName.asNormalizedText());
+            if (productBrand != null) {
+                item.put("title", productBrand.asNormalizedText() + " " + productName.asNormalizedText());
+            } else {
+                item.put("title", productName.asNormalizedText());
+            }
             item.put("price", price);
             item.put("image", image.getAttribute("src"));
             item.put("vendor", "HomeDepot");
@@ -57,7 +60,7 @@ public class HomeDepotVendor implements IVendor {
         String productUrl = null;
         try {
             HtmlPage page = client.getPage(url);
-            HtmlElement productResult = page.getFirstByXPath(".//section[@id='browse-search-pods-1']//.//a[@class='header product-pod--ie-fix']");
+            HtmlElement productResult = page.getFirstByXPath(".//a[@class='header product-pod--ie-fix']");
             productUrl = productResult.getAttribute("href");
             productUrl = "https://www.homedepot.com" + productUrl;
         } catch (IOException e) {
