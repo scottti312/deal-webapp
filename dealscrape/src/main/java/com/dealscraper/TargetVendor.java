@@ -1,13 +1,10 @@
 package com.dealscraper;
 
 import java.io.IOException;
-import java.io.File;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,15 +15,15 @@ import org.json.*;
 
 public class TargetVendor implements IVendor {
     // final String PATH = "C:\\Program Files (x86)\\chromedriver.exe";
-    public void searchType(String input) {
+    public JSONObject searchType(String input) {
         if (input.contains(".com")) {
-            generateProductInfo(input);
+            return generateProductInfo(input);
         } else {
-            generateProductInfo(getProductUrl(input));
+            return generateProductInfo(getProductUrl(input));
         }        
     }  
 
-    public void generateProductInfo(String url) {
+    public JSONObject generateProductInfo(String url) {
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setCssEnabled(false);
@@ -36,6 +33,7 @@ public class TargetVendor implements IVendor {
         options.addArguments("--headless");
         WebDriver driver = new ChromeDriver(options);
         driver.get(url);
+        JSONObject item = new JSONObject();
         try {
             HtmlPage page = client.getPage(url);
             HtmlElement title = page.getFirstByXPath(".//h1[@data-test='product-title']");
@@ -45,19 +43,17 @@ public class TargetVendor implements IVendor {
             String price = arr.getJSONObject(0).getJSONObject("offers").getString("price");
             String image = driver.findElement(By.xpath("//div[@class='slide--active']//img")).getAttribute("src");
             System.out.println(image);
-            Item item = new Item();
-            item.setTitle(title.asNormalizedText());
-            item.setPrice(Double.parseDouble(price));
-            item.setImage(image);
-            item.setVendor("Target");
-            item.setLink(url);
-            ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(new File("target_product.json"), item);
+            item.put("title", title.asNormalizedText());
+            item.put("price", Double.parseDouble(price));
+            item.put("image", image);
+            item.put("vendor", "Target");
+            item.put("link", url);
         } catch (IOException e) {
             e.printStackTrace();
         }
         client.close();
         driver.quit();
+        return item;
     }
 
     public String getProductUrl(String query) {

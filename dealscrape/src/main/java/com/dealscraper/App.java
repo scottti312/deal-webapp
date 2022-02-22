@@ -6,6 +6,6 @@ public class App
     {
         String query = "fridge";
         BestBuyVendor bb = new BestBuyVendor();
-        bb.searchType(query);
+        System.out.println(bb.searchType(query).getString("title"));
     }
 }

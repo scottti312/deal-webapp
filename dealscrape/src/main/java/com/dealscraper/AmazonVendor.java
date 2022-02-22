@@ -5,17 +5,19 @@ import java.io.IOException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import org.json.JSONObject;
+
 // !!!!!!!!!! Currently not working do to captcha bot detection !!!!!!!!!!
 public class AmazonVendor implements IVendor {
-    public void searchType(String input) {
+    public JSONObject searchType(String input) {
         if (input.contains(".com")) {
-            generateProductInfo(input);
+            return generateProductInfo(input);
         } else {
-            generateProductInfo(getProductUrl(input));
+            return generateProductInfo(getProductUrl(input));
         }        
     }  
     
-    public void generateProductInfo(String url) {
+    public JSONObject generateProductInfo(String url) {
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setCssEnabled(false);
@@ -27,6 +29,7 @@ public class AmazonVendor implements IVendor {
             e.printStackTrace();
         }
         client.close();
+        return null;
     }
 
     public String getProductUrl(String url) {

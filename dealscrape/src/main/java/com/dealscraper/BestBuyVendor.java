@@ -1,28 +1,28 @@
 package com.dealscraper;
 
 import java.io.IOException;
-import java.io.File;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+
+import org.json.JSONObject;
 
 public class BestBuyVendor implements IVendor {
-    public void searchType(String input) {
+    public JSONObject searchType(String input) {
         if (input.contains(".com")) {
-            generateProductInfo(input);
+            return generateProductInfo(input);
         } else {
-            generateProductInfo(getProductUrl(input));
+            return generateProductInfo(getProductUrl(input));
         }        
     }  
     
-    public void generateProductInfo(String url) {
+    public JSONObject generateProductInfo(String url) {
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setCssEnabled(false);
         client.getOptions().setUseInsecureSSL(true);
+        JSONObject item = new JSONObject();
         try {
             // page contains all the html
             HtmlPage page = client.getPage(url);
@@ -32,19 +32,16 @@ public class BestBuyVendor implements IVendor {
             HtmlElement price = page.getFirstByXPath(".//div[@class='priceView-hero-price priceView-customer-price']//span[@aria-hidden='true']");
             HtmlElement image = page.getFirstByXPath(".//img[@class='primary-image']");
             String priceDisplay = price.asNormalizedText().replace(",", "");
-            Item item = new Item();
-            item.setTitle(title.asNormalizedText());
-            item.setPrice(Double.parseDouble(priceDisplay.replace("$", "")));
-            item.setImage(image.getAttribute("src"));
-            item.setVendor("BestBuy");
-            item.setLink(url);
-            
-            ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(new File("bestbuy_product.json"), item);
+            item.put("title", title.asNormalizedText());
+            item.put("price", Double.parseDouble(priceDisplay.replace("$", "")));
+            item.put("image", image.getAttribute("src"));
+            item.put("vendor", "BestBuy");
+            item.put("link", url);
         } catch (IOException e) {
             e.printStackTrace();
         }
         client.close();
+        return item;
     }
 
     public String getProductUrl(String query) {

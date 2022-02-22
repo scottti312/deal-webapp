@@ -1,6 +1,9 @@
 package com.dealscraper;
+
+import org.json.JSONObject;
+
 public interface IVendor {
-    void searchType(String input);
-    void generateProductInfo(String url);
+    JSONObject searchType(String input);
+    JSONObject generateProductInfo(String url);
     String getProductUrl(String url);
 }
