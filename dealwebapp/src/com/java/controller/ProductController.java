@@ -38,8 +38,9 @@ public class ProductController extends HttpServlet {
 	   String productName = request.getParameter("searchProductName");
        //out.println("name: " + productName);
        
-       Application app = new Application();
-       String test = app.searchProduct(productName);
+       ApplicationTwo app = new ApplicationTwo();
+       
+       Map<String, String> test = app.searchProduct(productName);
        /*LinkedList<Map<String, String>> productList = app.searchProduct(productName);
        if(productList.size() != 0) {
 			for(Map<String, String> oneProduct : productList) {
