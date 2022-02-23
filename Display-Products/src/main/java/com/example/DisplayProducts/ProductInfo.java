@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 public class ProductInfo {
     public static JSONObject[] products() {
-        String path = "C:/Users/Adxbo/Display-Products/src/main/resources/static/product.json";
+        String path = "src/main/resources/static/product.json";
         try {
             String contents = new String((Files.readAllBytes(Paths.get(path))));
             JSONObject o = new JSONObject(contents);
