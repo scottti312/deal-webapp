@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\scott\\Downloads\\javax.servlet-api-4.0.0-javadoc.jar",
+        "javax.servlet-api-4.0.0-javadoc.jar"
+    ]
+}
