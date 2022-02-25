@@ -1,0 +1,10 @@
+{
+  "plugins": [
+{"name": "BestBuyVendor.jar",
+       "active": 1},
+{"name": "HomeDepotVendor.jar",
+       "active": 1},
+{"name": "NeweggVendor.jar",
+       "active": 1}
+]
+}
