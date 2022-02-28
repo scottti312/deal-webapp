@@ -31,10 +31,10 @@ public class CostcoVendor implements IVendor{
             String newSearchUrl = "https://www.costco.com/CatalogSearch?dept=All&keyword=" + title.asNormalizedText();
             page = client.getPage(newSearchUrl);
             HtmlElement price = page.getFirstByXPath(".//div[@automation-id='itemPriceOutput_0']");
-            System.out.println(price);
+            String priceString = price.asNormalizedText().replace("$", "").replace(",", "");
             item.put("title", title.asNormalizedText());
-            item.put("price", Double.parseDouble(price.asNormalizedText().replace("$", "")));
-            item.put("image", image.getAttribute("src"));
+            item.put("price", Double.parseDouble(priceString));
+            item.put("image", image.getAttribute("data-img-src"));
             item.put("vendor", "Costco");
             item.put("link", url);
         } catch (IOException e) {

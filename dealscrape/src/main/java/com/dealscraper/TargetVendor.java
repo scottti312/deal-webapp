@@ -29,9 +29,9 @@ public class TargetVendor implements IVendor {
         client.getOptions().setCssEnabled(false);
         client.getOptions().setUseInsecureSSL(true);
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        WebDriver driver = new ChromeDriver(options);
+        // ChromeOptions options = new ChromeOptions();
+        // options.addArguments("--headless");
+        WebDriver driver = new ChromeDriver();
         driver.get(url);
         JSONObject item = new JSONObject();
         try {

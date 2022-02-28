@@ -58,7 +58,6 @@ public class NeweggVendor implements IVendor{
         try {
             HtmlPage page = client.getPage(url);
             HtmlElement productResult = page.getFirstByXPath(".//div[@class='item-container']//.//a[@class='item-title']");
-            System.out.println(productResult);
             productUrl = productResult.getAttribute("href");
         } catch (IOException e) {
             e.printStackTrace();
