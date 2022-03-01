@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+    }
+
+    section {
+      display: -webkit-flex;
+      display: flex;
+      flex-shrink: 1;
+    }
+
+    logo {
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      padding-left: 20px;
+    }
+
+    search {
+      -webkit-flex: 8;
+      -ms-flex: 8;
+      flex: 8;
+      padding: 50px 0px 0px 0px;
+      text-align: center
+    }
+
+    login {
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      padding-right: 25px;
+      padding-top: 20px;
+      text-align: right;
+    }
+
+    @media (max-width: 600px) {
+      section {
+        -webkit-flex-direction: column;
+        flex-direction: column;
+      }
+    }
+
+    nav {
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      background-color: #95ffe0;
+      border-style: solid hidden;
+    }
+
+    box {
+      float: left;
+      display: block;
+      color: black;
+      text-align: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    divider {
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      border-style: hidden hidden solid hidden;
+    }
+
+    header {
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      background-color: #DEDEDE;
+      border: none;
+      font-size: 25px;
+      padding: 3px 0px 2px 15px;
+    }
+  </style>
+</head>
+
+<body style="background-color:white;">
+
+  <section>
+    <logo>
+      <p style="text-align:left;"><img src="Deal!.png" alt="Deal! logo" height=100px width=95px></p>
+    </logo>
+    <div th:replace="fragments :: searchBar"></div>
+
+    <div th:replace="fragments :: login"></div>
+
+  </section>
+  <section>
+
+    <div th:replace="fragments :: navBar"></div>
+  </section>
+  <section>
+    <divider>
+      <p></p>
+    </divider>
+  </section>
+  <section>
+    <header>Home</header>
+  </section>
+
+  <th:block th:each="vendor : ${vendors}">
+    <ul>
+      <li th:if="${!vendor.getString(&quot;name&quot;).equals(&quot;null&quot;)}"
+        th:text="${vendor.getString(&quot;name&quot;)}"></li>
+      <li th:if="${!vendor.getString(&quot;price&quot;).equals(&quot;null&quot;)}"
+        th:text="${vendor.getString(&quot;price&quot;)}"></li>
+      <a href="${vendor.getString(&quot;link&quot;)}"><img
+          th:if="${!vendor.getString(&quot;image&quot;).equals(&quot;null&quot;)}"
+          th:src="${vendor.getString(&quot;image&quot;)}" width="200" height="200"></img></a>
+      <li th:if="${!vendor.getString(&quot;link&quot;).equals(&quot;null&quot;)}"
+        th:text="${vendor.getString(&quot;link&quot;)}"></li>
+    </ul>
+  </th:block>
+
+</body>
+
+</html>

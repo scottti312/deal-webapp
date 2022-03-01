@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<login th:fragment="login">
+    <p><a href="/login">Login</a></p>
+    <p><a href="/register">Register</a></p>
+</login>
+
+<nav th:fragment="navBar">
+    <box>
+        <a class="active" href="/">Home</a>
+    </box>
+    <box>
+        <a href="#sales">Sales</a>
+    </box>
+    <box>
+        <a href="#saved_products">Saved Products</a>
+    </box>
+</nav>
+
+<search th:fragment="searchBar">
+    <form method="post" action="/search">
+        <input type="search" id="query" name="productName" placeholder="Search..." size=60>
+        <button type="submit">Search</button>
+    </form>
+</search>
+
+
+</body>
+</html>
