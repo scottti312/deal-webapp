@@ -10,6 +10,7 @@ import org.json.JSONObject;
 public class ProductInfo {
     public static JSONObject[] products() {
         String path = "src/main/resources/static/product.json";
+        
         try {
             String contents = new String((Files.readAllBytes(Paths.get(path))));
             JSONObject o = new JSONObject(contents);
