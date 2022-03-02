@@ -2,6 +2,8 @@ package plugins;
 
 import java.io.*;
 import java.util.*;
+import java.nio.charset.StandardCharsets;
+
 
 public class BestBuyVendor implements IVendor{
     public Map<String, String> searchType(String input) {
@@ -29,7 +31,6 @@ public class BestBuyVendor implements IVendor{
         // The url must be surrounded by "" quotation marks
         url = String.format("\"%s\"", url);
         try {
-            // Runs the command "python plugins/search(Amazon, BestBuy, etc.).py "url""
             ProcessBuilder pb = new ProcessBuilder("python", String.format("python/searchBestBuy.py"), url);
             Process p = pb.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -45,6 +46,7 @@ public class BestBuyVendor implements IVendor{
         catch(IOException ex){
             System.out.println(ex);
         }
+
         return dict;
     }
 
