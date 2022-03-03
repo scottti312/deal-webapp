@@ -69,6 +69,16 @@ public class CostcoVendor implements IVendor{
         String productUrl = null;
         try {
             HtmlPage page = client.getPage(url);
+            HtmlElement noResult = page.getFirstByXPath(".//div[@class='toolbar']//h1");
+            if (noResult.asNormalizedText().contains("We were not able to find a match.")) {
+                client.close();
+                return productUrl;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {}
+        try {
+            HtmlPage page = client.getPage(url);
             HtmlElement productResult = page.getFirstByXPath(".//div[@class='product-list grid']//.//a");
             productUrl = productResult.getAttribute("href");
         } catch (IOException e) {
