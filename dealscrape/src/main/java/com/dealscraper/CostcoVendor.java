@@ -35,7 +35,8 @@ public class CostcoVendor implements IVendor{
         try {
             HtmlPage page = client.getPage(url);
             HtmlElement title = page.getFirstByXPath(".//h1[@automation-id='productName']");
-            HtmlElement image = page.getFirstByXPath(".//img[@class='img-responsive']");
+            HtmlElement image = page.getFirstByXPath(".//div[@id='productImageContainer']//img[@class='img-responsive']");
+            System.out.println(image);
             // Costco hides the price on the product page, so instead I grab it from the search page.
             String newSearchUrl = "https://www.costco.com/CatalogSearch?dept=All&keyword=" + title.asNormalizedText();
             page = client.getPage(newSearchUrl);
@@ -43,7 +44,7 @@ public class CostcoVendor implements IVendor{
             String priceString = price.asNormalizedText().replace("$", "").replace(",", "");
             item.put("title", title.asNormalizedText());
             item.put("price", Double.parseDouble(priceString));
-            item.put("image", image.getAttribute("data-img-src"));
+            item.put("image", image.getAttribute("src"));
             item.put("vendor", "Costco");
             item.put("link", url);
         } catch (IOException e) {

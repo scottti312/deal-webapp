@@ -11,10 +11,10 @@ public class App
         HomeDepotVendor hd = new HomeDepotVendor();
         CostcoVendor co = new CostcoVendor();
         NeweggVendor ne = new NeweggVendor();
-        System.out.println(bb.searchType(query).toString(4));
-        System.out.println(hd.searchType(query).toString(4));
+        // System.out.println(bb.searchType(query).toString(4));
+        // System.out.println(hd.searchType(query).toString(4));
         System.out.println(co.searchType(query).toString(4));
-        System.out.println(ne.searchType(query).toString(4));
+        // System.out.println(ne.searchType(query).toString(4));
 
     }
 }
