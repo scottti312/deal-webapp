@@ -50,6 +50,13 @@ public class TargetVendor implements IVendor {
             item.put("link", url);
         } catch (IOException e) {
             e.printStackTrace();
+            item.put("title", "null");
+            item.put("price", "null");
+            item.put("image", "null");
+            item.put("vendor", "null");
+            item.put("link", "null");
+            client.close();
+            return item;
         }
         client.close();
         driver.quit();

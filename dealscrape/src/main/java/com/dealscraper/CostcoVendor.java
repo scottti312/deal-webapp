@@ -18,6 +18,15 @@ public class CostcoVendor implements IVendor{
     }  
 
     public JSONObject generateProductInfo(String url) {
+        if (url == null) {
+            JSONObject item = new JSONObject();
+            item.put("title", "null");
+            item.put("price", "null");
+            item.put("image", "null");
+            item.put("vendor", "Costco");
+            item.put("link", "null");
+            return item;
+        }
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setCssEnabled(false);
@@ -39,6 +48,13 @@ public class CostcoVendor implements IVendor{
             item.put("link", url);
         } catch (IOException e) {
             e.printStackTrace();
+            item.put("title", "null");
+            item.put("price", "null");
+            item.put("image", "null");
+            item.put("vendor", "Costco");
+            item.put("link", "null");
+            client.close();
+            return item;
         }
         client.close();
         return item;
@@ -57,6 +73,9 @@ public class CostcoVendor implements IVendor{
             productUrl = productResult.getAttribute("href");
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            client.close();
+            return productUrl;
         }
         client.close();
         return productUrl;

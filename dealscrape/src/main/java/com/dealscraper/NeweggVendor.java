@@ -19,6 +19,15 @@ public class NeweggVendor implements IVendor{
     }  
     
     public JSONObject generateProductInfo(String url) {
+        if (url == null) {
+            JSONObject item = new JSONObject();
+            item.put("title", "null");
+            item.put("price", "null");
+            item.put("image", "null");
+            item.put("vendor", "Newegg");
+            item.put("link", "null");
+            return item;
+        }
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setCssEnabled(false);
@@ -27,7 +36,7 @@ public class NeweggVendor implements IVendor{
         try {
             HtmlPage page = client.getPage(url);
             HtmlElement title = page.getFirstByXPath(".//h1[@class='product-title']");
-            List<HtmlElement> priceList = page.getByXPath(".//li[@class='price-current']");
+            List<HtmlElement> priceList = page.getByXPath(".//div[@class='product-price']//li[@class='price-current']");
             String price = "";
             for(HtmlElement priceElement : priceList) {
                 HtmlElement dollars = priceElement.getFirstByXPath("strong");
@@ -43,6 +52,13 @@ public class NeweggVendor implements IVendor{
             item.put("link", url);
         } catch (IOException e) {
             e.printStackTrace();
+            item.put("title", "null");
+            item.put("price", "null");
+            item.put("image", "null");
+            item.put("vendor", "Newegg");
+            item.put("link", "null");
+            client.close();
+            return item;
         }
         client.close();
         return item;
@@ -57,10 +73,13 @@ public class NeweggVendor implements IVendor{
         String productUrl = null;
         try {
             HtmlPage page = client.getPage(url);
-            HtmlElement productResult = page.getFirstByXPath(".//div[@class='item-container']//.//a[@class='item-title']");
+            HtmlElement productResult = page.getFirstByXPath(".//div[@class='item-cells-wrap border-cells items-grid-view four-cells expulsion-one-cell']//.//a[@class='item-title']");
             productUrl = productResult.getAttribute("href");
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            client.close();
+            return productUrl;
         }
         client.close();
         return productUrl;

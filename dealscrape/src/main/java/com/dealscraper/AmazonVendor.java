@@ -27,6 +27,7 @@ public class AmazonVendor implements IVendor {
             System.out.println(page.asXml());
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
         client.close();
         return null;
