@@ -16,18 +16,22 @@ import com.example.DisplayProducts.deal.*;
 public class ProductController {
 
     @PostMapping("search")
-    public String searchProduct(@RequestParam String productName) {
+    public String searchProduct(@RequestParam String productName) throws JSONException {
         System.out.println(productName);
+        if (productName.equals("")) {
+            return "home";
+        }
         ApplicationTwo app = new ApplicationTwo();
-        org.json.simple.JSONObject json = app.searchProduct(productName);
-        System.out.println(json.toString());
+        org.json.simple.JSONObject simplejson = app.searchProduct(productName);
+        JSONObject jsonobj = new JSONObject(simplejson.toString());
+        System.out.println(jsonobj.toString(4));
         return "redirect:/pages/results";
     }
 
 
     @GetMapping("pages/results")
-    String getProduct(Model model) throws JSONException {
-        JSONObject product_data[] = ProductInfo.products();
+    String getProduct(Model model, JSONObject jsonobj) throws JSONException {
+        JSONObject product_data[] = ProductInfo.products(jsonobj);
 
         model.addAttribute("vendors", product_data);
 

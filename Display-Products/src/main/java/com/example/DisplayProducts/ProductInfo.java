@@ -8,12 +8,12 @@ import org.json.JSONObject;
 
 
 public class ProductInfo {
-    public static JSONObject[] products() {
+    public static JSONObject[] products(JSONObject o) {
         // Change to relative path
-        String path = "Display-Products/src/main/resources/static/product.json";
+        // String path = "Display-Products/src/main/resources/static/product.json";
         try {
-            String contents = new String((Files.readAllBytes(Paths.get(path))));
-            JSONObject o = new JSONObject(contents);
+            // String contents = new String((Files.readAllBytes(Paths.get(path))));
+            // JSONObject o = new JSONObject(contents);
             JSONObject vendors[];
             vendors = new JSONObject[o.length()];
             Iterator<String> keys = o.keys();
@@ -32,7 +32,8 @@ public class ProductInfo {
                 return vendors;
             }
 
-        } catch (JSONException | IOException e) {
+        // } catch (JSONException | IOException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;

@@ -114,13 +114,13 @@
 
   <th:block th:each="vendor : ${vendors}">
     <ul>
-      <li th:if="${!vendor.getString(&quot;name&quot;).equals(&quot;null&quot;)}"
-        th:text="${vendor.getString(&quot;name&quot;)}"></li>
+      <li th:if="${!vendor.getString(&quot;title&quot;).equals(&quot;null&quot;)}"
+        th:text="${vendor.getString(&quot;title&quot;)}"></li>
       <li th:if="${!vendor.getString(&quot;price&quot;).equals(&quot;null&quot;)}"
         th:text="${vendor.getString(&quot;price&quot;)}"></li>
-      <a href="${vendor.getString(&quot;link&quot;)}"><img
+      <!-- <a href="${vendor.getString(&quot;link&quot;)}"><img
           th:if="${!vendor.getString(&quot;image&quot;).equals(&quot;null&quot;)}"
-          th:src="${vendor.getString(&quot;image&quot;)}" width="200" height="200"></img></a>
+          th:src="${vendor.getString(&quot;image&quot;)}" width="200" height="200"></img></a> -->
       <li th:if="${!vendor.getString(&quot;link&quot;).equals(&quot;null&quot;)}"
         th:text="${vendor.getString(&quot;link&quot;)}"></li>
     </ul>
