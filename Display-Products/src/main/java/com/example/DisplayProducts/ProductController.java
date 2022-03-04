@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import com.example.DisplayProducts.deal.*;
 
 @Controller
@@ -25,14 +28,20 @@ public class ProductController {
         org.json.simple.JSONObject simplejson = app.searchProduct(productName);
         JSONObject jsonobj = new JSONObject(simplejson.toString());
         System.out.println(jsonobj.toString(4));
+        try {
+            FileWriter file = new FileWriter ("Display-Products\\src\\main\\resources\\static\\product.json");
+            file.write(jsonobj.toString());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "redirect:/pages/results";
     }
 
 
     @GetMapping("pages/results")
-    String getProduct(Model model, JSONObject jsonobj) throws JSONException {
-        JSONObject product_data[] = ProductInfo.products(jsonobj);
-
+    String getProduct(Model model) throws JSONException {
+        JSONObject product_data[] = ProductInfo.products();
         model.addAttribute("vendors", product_data);
 
         return "pages/results";
