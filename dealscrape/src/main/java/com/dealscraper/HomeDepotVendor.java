@@ -39,6 +39,7 @@ public class HomeDepotVendor implements IVendor {
             }
             HtmlElement productName = page.getFirstByXPath(".//h1[@class='product-details__title']");
             List<HtmlElement> priceElement = page.getByXPath(".//div[@class='price']//div[@class='price-format__large price-format__main-price']//span");
+            System.out.println(priceElement);
             Double price = Double.parseDouble(priceElement.get(1).asNormalizedText().replace(",", "")) + 
                            (Double.parseDouble(priceElement.get(2).asNormalizedText()) / 100);
             HtmlElement image = page.getFirstByXPath(".//div[@class='mediagallery']//.//img");

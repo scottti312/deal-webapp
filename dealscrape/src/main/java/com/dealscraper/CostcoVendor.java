@@ -1,6 +1,5 @@
 package com.dealscraper;
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -74,11 +73,9 @@ public class CostcoVendor implements IVendor{
         } catch (NullPointerException e) {}
         try {
             HtmlPage page = client.getPage(url);
-            FileWriter file = new FileWriter("test.html");
-            file.write(page.asXml());
-            file.close();
             // System.out.println(page.asXml());
             HtmlElement productResult = page.getFirstByXPath(".//div[@class='product-list grid']//.//a");
+            System.out.println(productResult);
             productUrl = productResult.getAttribute("href");
         } catch (IOException e) {
             e.printStackTrace();
