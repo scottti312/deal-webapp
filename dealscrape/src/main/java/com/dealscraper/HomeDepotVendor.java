@@ -19,20 +19,18 @@ public class HomeDepotVendor implements IVendor {
     }  
     
     public JSONObject generateProductInfo(String url) {
-        if (url == null) {
-            JSONObject item = new JSONObject();
-            item.put("title", "null");
-            item.put("price", "null");
-            item.put("image", "null");
-            item.put("vendor", "HomeDepot");
-            item.put("link", "null");
+        JSONObject item = new JSONObject();
+        item.put("title", "null");
+        item.put("price", "null");
+        item.put("image", "null");
+        item.put("vendor", "HomeDepot");
+        item.put("link", "null");
+        if (url == null) 
             return item;
-        }
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setCssEnabled(false);
         client.getOptions().setUseInsecureSSL(true);
-        JSONObject item = new JSONObject();
         try {
             HtmlPage page = client.getPage(url);
             HtmlElement productBrand = page.getFirstByXPath(".//span[@class='product-details__brand--link']");
@@ -40,7 +38,7 @@ public class HomeDepotVendor implements IVendor {
                 productBrand = page.getFirstByXPath(".//h2[@class='product-details__brand-name']");
             }
             HtmlElement productName = page.getFirstByXPath(".//h1[@class='product-details__title']");
-            List<HtmlElement> priceElement = page.getByXPath(".//div[@class='price-format__large price-format__main-price']//span");
+            List<HtmlElement> priceElement = page.getByXPath(".//div[@class='price']//div[@class='price-format__large price-format__main-price']//span");
             Double price = Double.parseDouble(priceElement.get(1).asNormalizedText().replace(",", "")) + 
                            (Double.parseDouble(priceElement.get(2).asNormalizedText()) / 100);
             HtmlElement image = page.getFirstByXPath(".//div[@class='mediagallery']//.//img");
@@ -53,13 +51,7 @@ public class HomeDepotVendor implements IVendor {
             item.put("image", image.getAttribute("src"));
             item.put("vendor", "HomeDepot");
             item.put("link", url);
-        } catch (IOException e) {
-            e.printStackTrace();
-            item.put("title", "null");
-            item.put("price", "null");
-            item.put("image", "null");
-            item.put("vendor", "HomeDepot");
-            item.put("link", "null");
+        } catch (Exception e) {
             client.close();
             return item;
         }

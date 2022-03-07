@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 public class NeweggVendor implements IVendor{
     public JSONObject searchType(String input) {
-        if (input.contains(".com")) {
+        if (input.contains("newegg.com")) {
             return generateProductInfo(input);
         } else {
             return generateProductInfo(getProductUrl(input));
@@ -19,20 +19,18 @@ public class NeweggVendor implements IVendor{
     }  
     
     public JSONObject generateProductInfo(String url) {
-        if (url == null) {
-            JSONObject item = new JSONObject();
-            item.put("title", "null");
-            item.put("price", "null");
-            item.put("image", "null");
-            item.put("vendor", "Newegg");
-            item.put("link", "null");
+        JSONObject item = new JSONObject();
+        item.put("title", "null");
+        item.put("price", "null");
+        item.put("image", "null");
+        item.put("vendor", "Newegg");
+        item.put("link", "null");
+        if (url == null)
             return item;
-        }
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setCssEnabled(false);
         client.getOptions().setUseInsecureSSL(true);
-        JSONObject item = new JSONObject();
         try {
             HtmlPage page = client.getPage(url);
             HtmlElement title = page.getFirstByXPath(".//h1[@class='product-title']");
@@ -41,7 +39,7 @@ public class NeweggVendor implements IVendor{
             for(HtmlElement priceElement : priceList) {
                 HtmlElement dollars = priceElement.getFirstByXPath("strong");
                 HtmlElement cents = priceElement.getFirstByXPath("sup");
-                price += dollars.asNormalizedText();
+                price += dollars.asNormalizedText().replace(",", "");
                 price += cents.asNormalizedText();
             }
             HtmlElement image = page.getFirstByXPath(".//div[@class='mainSlide']//.//img");
@@ -50,13 +48,8 @@ public class NeweggVendor implements IVendor{
             item.put("image", image.getAttribute("src"));
             item.put("vendor", "Newegg");
             item.put("link", url);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            item.put("title", "null");
-            item.put("price", "null");
-            item.put("image", "null");
-            item.put("vendor", "Newegg");
-            item.put("link", "null");
             client.close();
             return item;
         }

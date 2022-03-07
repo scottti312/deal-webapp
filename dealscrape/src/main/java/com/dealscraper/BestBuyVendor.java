@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 public class BestBuyVendor implements IVendor {
     public JSONObject searchType(String input) {
-        if (input.contains(".com")) {
+        if (input.contains("bestbuy.com")) {
             return generateProductInfo(input);
         } else {
             return generateProductInfo(getProductUrl(input));
@@ -18,20 +18,19 @@ public class BestBuyVendor implements IVendor {
     }  
     
     public JSONObject generateProductInfo(String url) {
+        JSONObject item = new JSONObject();
+        item.put("title", "null");
+        item.put("price", "null");
+        item.put("image", "null");
+        item.put("vendor", "BestBuy");
+        item.put("link", "null");
         if (url == null) {
-            JSONObject item = new JSONObject();
-            item.put("title", "null");
-            item.put("price", "null");
-            item.put("image", "null");
-            item.put("vendor", "BestBuy");
-            item.put("link", "null");
             return item;
         }
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
         client.getOptions().setCssEnabled(false);
         client.getOptions().setUseInsecureSSL(true);
-        JSONObject item = new JSONObject();
         try {
             // page contains all the html
             HtmlPage page = client.getPage(url);
@@ -47,19 +46,9 @@ public class BestBuyVendor implements IVendor {
             item.put("vendor", "BestBuy");
             item.put("link", url);
         } catch (IOException e) {
-            item.put("title", "null");
-            item.put("price", "null");
-            item.put("image", "null");
-            item.put("vendor", "BestBuy");
-            item.put("link", "null");
             client.close();
             return item;
         } catch (NullPointerException e) {
-            item.put("title", "null");
-            item.put("price", "null");
-            item.put("image", "null");
-            item.put("vendor", "BestBuy");
-            item.put("link", "null");
             client.close();
             return item;
         }
