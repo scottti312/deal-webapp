@@ -121,8 +121,8 @@
         <div th:if="${!vendor.getString(&quot;vendor&quot;).equals(&quot;null&quot;)}"
           th:text="${vendor.getString(&quot;vendor&quot;)}"></div>
         <a th:href="${vendor.getString(&quot;link&quot;)}">
-          <div th:if="${!vendor.getString(&quot;name&quot;).equals(&quot;null&quot;)}"
-            th:text="${vendor.getString(&quot;name&quot;)}"></div>
+          <div th:if="${!vendor.getString(&quot;title&quot;).equals(&quot;null&quot;)}"
+            th:text="${vendor.getString(&quot;title&quot;)}"></div>
         </a>
         <div>
           <div style="display: inline-block;">$</div>
