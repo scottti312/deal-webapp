@@ -11,7 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.java.dealinterface.IVendor;
+import com.example.DisplayProducts.dealinterface.IVendor;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -47,21 +47,26 @@ public class ApplicationTwo {
 			for(int i = 0; i < IVendorCreator.size(); i++) {
 				 
 				IVendor oneIVendor = IVendorCreator.get(i);	
-				HashMap<String, String> singleVendorMap = oneIVendor.searchType(productName);								
+				if(oneIVendor != null) {
+					HashMap<String, String> singleVendorMap = oneIVendor.searchType(productName);								
 				
-				String vendorName = "";
-				JSONObject subJson = new JSONObject();
+					String vendorName = "";
+					JSONObject subJson = new JSONObject();
 				
-				for(String item : singleVendorMap.keySet()) {
+					for(String item : singleVendorMap.keySet()) {
 					
-					if(item.equals("vendor")) {
-						vendorName += singleVendorMap.get(item);
-					}else{
-						subJson.put(item, singleVendorMap.get(item));
-					}				
-				}
+						if(item.equals("vendor")) {
+							vendorName += singleVendorMap.get(item);
+							subJson.put(item,  singleVendorMap.get(item));
+						}else{
+														
+							subJson.put(item, singleVendorMap.get(item));
+							
+						}				
+					}
 				
-				productJson.put(vendorName, subJson);				
+					productJson.put(vendorName, subJson);						
+				}
 			}
 		}
 		
