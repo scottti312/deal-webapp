@@ -6,6 +6,7 @@ public class RegisterForm {
     private String lastName;
     private String emailAddress;
     private String password;
+    private String emailConfirmation;
 
     String clientId = "7cuj1pu58j6n7i1sv7tfhknq8g";
     String secretKey = "1m9k7peq0cdd3t92bpm26skvderdg5ikd546fbvrqda11j0mlls3";
@@ -15,12 +16,13 @@ public class RegisterForm {
         super();
     }
 
-    public RegisterForm(String firstName, String lastName, String emailAddress, String password) {
+    public RegisterForm(String firstName, String lastName, String emailAddress, String password, String emailConfirmation) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.password = password;
+        this.emailConfirmation = emailConfirmation;
     }
 
     public String getFirstName() {
@@ -55,4 +57,11 @@ public class RegisterForm {
         this.password = password;
     }
 
+    public String getEmailConfirmation() {
+        return emailConfirmation;
+    }
+
+    public void setEmailConfirmation(String emailConfirmation){
+        this.emailConfirmation = emailConfirmation;
+    }
 }
