@@ -2,12 +2,10 @@ package com.example.DisplayProducts;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.FileWriter;
@@ -29,7 +27,7 @@ public class ProductController {
         JSONObject jsonobj = new JSONObject(simplejson.toString());
         System.out.println(jsonobj.toString(4));
         try {
-            FileWriter file = new FileWriter ("src\\main\\resources\\static\\product.json");
+            FileWriter file = new FileWriter ("Display-Products/src/main/resources/static/product.json");
             file.write(jsonobj.toString());
             file.close();
         } catch (IOException e) {
