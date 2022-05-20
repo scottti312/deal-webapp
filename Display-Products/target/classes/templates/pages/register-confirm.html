@@ -75,7 +75,7 @@ header {
 .boxed {
   background-color: #FBFCFC;
   border: solid 1px;
-  width: 40%;
+  width: 35%;
 }
 redbox {
   font-size: 18px;
@@ -94,9 +94,18 @@ redbox {
 <section></section>
 <section><p></p></section>
 
-<center>
-    <p>You have successfully signed up to Deal!</p>
-</center>
+<center><div class="boxed"><redbox>
+    <p style="font-size: 25px; color: #00D100">Registration Confirmation</p>
+    <p th:text="${registerForm.emailAddress}"></p>
+    <p>You will receive an email with a confirmation code shortly. Please enter it below.</p>
+    <form action="#" th:action="@{/register-success}" th:object="${registerForm}" method="post">
+        <div class="form-group">
+            <input type="text" class="form-control" id="emailConfirmation" name="emailConfirmation" placeholder="Email Confirmation Code">
+        </div>
+        <p></p>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</redbox></div></center>
 
 
 

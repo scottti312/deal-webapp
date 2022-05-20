@@ -13,8 +13,15 @@ public class RegisterController {
         return "pages/register";
     }
 
-    @PostMapping("register-submit")
+    @PostMapping("register-confirm")
     public String submitRegister(@ModelAttribute RegisterForm registerForm, Model model) {
+
+        model.addAttribute("registerForm", registerForm);
+        return "pages/register-confirm";
+    }
+
+    @PostMapping("register-success")
+    public String submitConfirmation(@ModelAttribute RegisterForm registerForm, Model model) {
 
         model.addAttribute("registerForm", registerForm);
         return "pages/register-success";

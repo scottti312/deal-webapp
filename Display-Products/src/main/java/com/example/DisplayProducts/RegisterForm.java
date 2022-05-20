@@ -6,17 +6,19 @@ public class RegisterForm {
     private String lastName;
     private String emailAddress;
     private String password;
+    private String emailConfirmation;
 
     public RegisterForm() {
         super();
     }
 
-    public RegisterForm(String firstName, String lastName, String emailAddress, String password) {
+    public RegisterForm(String firstName, String lastName, String emailAddress, String password, String emailConfirmation) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.password = password;
+        this.emailConfirmation = emailConfirmation;
     }
 
     public String getFirstName() {
@@ -49,5 +51,13 @@ public class RegisterForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmailConfirmation() {
+        return emailConfirmation;
+    }
+
+    public void setEmailConfirmation(String emailConfirmation){
+        this.emailConfirmation = emailConfirmation;
     }
 }
