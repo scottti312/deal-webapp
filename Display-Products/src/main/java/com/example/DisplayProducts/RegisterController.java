@@ -36,6 +36,13 @@ public class RegisterController {
     public String submitConfirmation(@ModelAttribute RegisterForm registerForm, Model model) {
 
         model.addAttribute("registerForm", registerForm);
+        return "pages/register-confirm";
+    }
+
+    @PostMapping("register-success")
+    public String submitConfirmation(@ModelAttribute RegisterForm registerForm, Model model) {
+
+        model.addAttribute("registerForm", registerForm);
         return "pages/register-success";
     }
 
