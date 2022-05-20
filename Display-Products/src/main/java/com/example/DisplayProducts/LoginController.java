@@ -15,7 +15,8 @@ public class LoginController {
 
     @PostMapping("login-submit")
     public String submitLogin(@ModelAttribute LoginForm loginForm, Model model) {
-
+        String email = loginForm.getEmailAddress();
+        String password = loginForm.getPassword();
         model.addAttribute("loginForm", loginForm);
         return "pages/login-success";
     }
