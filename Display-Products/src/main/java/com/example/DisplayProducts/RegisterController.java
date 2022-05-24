@@ -11,8 +11,8 @@ import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityPr
 @Controller
 public class RegisterController {
 
-    String clientId = "7cuj1pu58j6n7i1sv7tfhknq8g";
-    String secretKey = "1m9k7peq0cdd3t92bpm26skvderdg5ikd546fbvrqda11j0mlls3";
+    String email = "";
+    CognitoClient cc = new CognitoClient();
 
     @GetMapping("register")
     public String register() {
@@ -21,20 +21,20 @@ public class RegisterController {
 
     @PostMapping("register-confirm")
     public String submitRegister(@ModelAttribute RegisterForm registerForm, Model model) {
-        CognitoIdentityProviderClient identityProviderClient = CognitoIdentityProviderClient.builder()
-                .region(Region.US_EAST_1)
-                .build();
         String userName = registerForm.getEmailAddress();
         String password = registerForm.getPassword();
-        String email = registerForm.getEmailAddress();
-        CognitoAuth.signUp(identityProviderClient, clientId, secretKey, userName, password, email);
+        email = registerForm.getEmailAddress();
+        cc.signUp(userName, email, password); 
         model.addAttribute("registerForm", registerForm);
         return "pages/register-confirm";
     }
 
     @PostMapping("register-success")
     public String submitConfirmation(@ModelAttribute RegisterForm registerForm, Model model) {
-
+        String confirmationCode = registerForm.getEmailConfirmation();
+        CognitoClient cc = new CognitoClient();
+        System.out.printf("email:%s\nconfirmationCode:%s\n",email, confirmationCode);
+        cc.confirmSignUp(email, confirmationCode);
         model.addAttribute("registerForm", registerForm);
         return "pages/register-success";
     }
