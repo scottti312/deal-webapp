@@ -15,15 +15,15 @@ import java.util.Map;
 public class CognitoClient {
 
     private final AWSCognitoIdentityProvider client ;
-    private final String clientId = "q9ahu5su2agqds1n2v3jjoo64";
-    private final String userPool = "us-east-1_rRcQlTymz";
+    private final String clientId = "client id";
+    private final String userPool = "user pool";
     public boolean loggedIn = false;
     public CognitoClient() {
         client = createCognitoClient();
     }
 
     private AWSCognitoIdentityProvider createCognitoClient() {
-        AWSCredentials cred = new BasicAWSCredentials("accessKey", "secretKey");
+        AWSCredentials cred = new BasicAWSCredentials("AKIA2LYLN7GFZAZHCV6X", "DsaXFifU3D7Dr+ymRd8hJD6vpRZ+T0niJyXzTieW");
         AWSCredentialsProvider credProvider = new AWSStaticCredentialsProvider(cred);
         return AWSCognitoIdentityProviderClientBuilder.standard()
                 .withCredentials(credProvider)
