@@ -7,13 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class HomeController {
+public class SavedProductsController {
 
-    @GetMapping
-    String home(Model model)  {
+    @GetMapping("saved-products")
+    public String savedProducts(Model model)  {
         boolean userLoggedIn = CognitoClient.loggedIn;
         System.out.println("userLoggedIn" + userLoggedIn);
         model.addAttribute("userLoggedIn", userLoggedIn);
-        return "home";
+        return "pages/saved-products";
     }
 }
