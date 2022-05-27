@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class LoginController {
 
+    public boolean loggedIn = false;
     CognitoClient cc = new CognitoClient();
 
     @GetMapping("login")
@@ -20,7 +21,7 @@ public class LoginController {
         String email = loginForm.getEmailAddress();
         String password = loginForm.getPassword();
         cc.login(email, password);
-        boolean loggedIn = cc.loggedIn;
+        loggedIn = cc.loggedIn;
         System.out.println(loggedIn);
         model.addAttribute("loginForm", loginForm);
         return "pages/login-success";

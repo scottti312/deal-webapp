@@ -80,6 +80,10 @@
     		<version>1.11.759</version>
     	</dependency>
 		<dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>dynamodb</artifactId>
+        </dependency>
+		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>cognitoidentity</artifactId>
 		</dependency>

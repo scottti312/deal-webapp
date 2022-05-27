@@ -9,21 +9,26 @@ import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
 import com.amazonaws.services.cognitoidp.model.*;
 
+import software.amazon.awssdk.services.cognitoidentityprovider.model.RevokeTokenRequest;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CognitoClient {
 
     private final AWSCognitoIdentityProvider client ;
-    private final String clientId = "client id";
-    private final String userPool = "user pool";
-    public boolean loggedIn = false;
+    private final String clientId = "q9ahu5su2agqds1n2v3jjoo64";
+    private final String userPool = "us-east-1_rRcQlTymz";
+    public static boolean loggedIn = false;
+    public static String idToken = "";
+    public static String accessToken = "";
+    public static String refreshToken = "";
     public CognitoClient() {
         client = createCognitoClient();
     }
 
     private AWSCognitoIdentityProvider createCognitoClient() {
-        AWSCredentials cred = new BasicAWSCredentials("AKIA2LYLN7GFZAZHCV6X", "DsaXFifU3D7Dr+ymRd8hJD6vpRZ+T0niJyXzTieW");
+        AWSCredentials cred = new BasicAWSCredentials("AKIA2LYLN7GFTI7462X2", "RUzCweOG3hYCGbx6R/DqI9VGDAEtFgDM0nrl9m76");
         AWSCredentialsProvider credProvider = new AWSStaticCredentialsProvider(cred);
         return AWSCognitoIdentityProviderClientBuilder.standard()
                 .withCredentials(credProvider)
@@ -55,6 +60,7 @@ public class CognitoClient {
                 .withAuthParameters(authParams);
         AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
         AuthenticationResultType resultType = authResult.getAuthenticationResult();
+        System.out.println(resultType);
         loggedIn = true;
          return new LinkedHashMap<String, String>() {{
             put("idToken", resultType.getIdToken());
@@ -63,5 +69,9 @@ public class CognitoClient {
             put("message", "Successfully login");
         }};
 
+    }
+
+    public void logout(String token) {
+        loggedIn = false;
     }
 }
