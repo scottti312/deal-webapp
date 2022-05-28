@@ -84,7 +84,13 @@
 
 <body style="background-color:white;">
 
+<div th:if="${userLoggedIn}">
+  <div th:replace="fragments :: loggedInNavBarSearch"></div>
+</div>
+
+<div th:if="${!userLoggedIn}">
   <div th:replace="fragments :: navBarSearch"></div>
+</div>
 
 <section>
 
@@ -108,6 +114,16 @@
       <div th:if="${!vendor.getString(&quot;price&quot;).equals(&quot;null&quot;)}"
            th:text="'$'+ ${vendor.getString(&quot;price&quot;)}"></div>
       </div>
+      <form action="#" th:action="@{/product-saved}" th:object="${productForm}" method="post">
+        <input type = "hidden" class = "form-control" id = "productUrl" name = "productUrl" th:value = "${vendor.getString(&quot;link&quot;)}"  />
+        <input type = "hidden" class = "form-control" id = "imgUrl" name = "imgUrl" th:value = "${vendor.getString(&quot;image&quot;)}"  />
+        <input type = "hidden" class = "form-control" id = "vendorName" name = "vendorName" th:value = "${vendor.getString(&quot;vendor&quot;)}"  />
+        <input type = "hidden" class = "form-control" id = "productName" name = "productName" th:value = "${vendor.getString(&quot;title&quot;)}"  />
+        <input type = "hidden" class = "form-control" id = "productPrice" name = "productPrice" th:value = "'$'+ ${vendor.getString(&quot;price&quot;)}"  />
+      <button type="submit" class="btn btn-outline-success btn-floating" data-mdb-ripple-color="dark">
+        <i class="fas fa-star"></i>
+      </button>
+      </form>
     </div>
   </div>
     <th:block th:if="${itr.index % rowSize == rowSize-1 || itr.index == vendors.length-1}" th:utext="'</div>'"/>

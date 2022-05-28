@@ -11,9 +11,8 @@ public class SavedProductsController {
 
     @GetMapping("saved-products")
     public String savedProducts(Model model)  {
-        boolean userLoggedIn = CognitoClient.loggedIn;
-        System.out.println("userLoggedIn" + userLoggedIn);
-        model.addAttribute("userLoggedIn", userLoggedIn);
+        model.addAttribute("userLoggedIn", CognitoClient.loggedIn);
+        //model.addAttribute("userLoggedOut", CognitoClient.loggedIn = false);
         return "pages/saved-products";
     }
 }

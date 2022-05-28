@@ -11,9 +11,8 @@ public class HomeController {
 
     @GetMapping
     String home(Model model)  {
-        boolean userLoggedIn = CognitoClient.loggedIn;
-        System.out.println("userLoggedIn" + userLoggedIn);
-        model.addAttribute("userLoggedIn", userLoggedIn);
+        model.addAttribute("userLoggedIn", CognitoClient.loggedIn);
+        model.addAttribute("userLoggedOut", CognitoClient.loggedIn = false);
         return "home";
     }
 }

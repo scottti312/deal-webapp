@@ -9,6 +9,7 @@ public class LoginController {
 
     public boolean loggedIn = false;
     CognitoClient cc = new CognitoClient();
+    public static String userEmail = "";
 
     @GetMapping("login")
     public String login() {
@@ -23,6 +24,9 @@ public class LoginController {
         cc.login(email, password);
         loggedIn = cc.loggedIn;
         System.out.println(loggedIn);
+        System.out.println(email);
+        userEmail = email;
+        System.out.println(password);
         model.addAttribute("loginForm", loginForm);
         return "pages/login-success";
     }

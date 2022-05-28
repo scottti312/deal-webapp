@@ -4,9 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +25,7 @@ public class ProductController {
         JSONObject jsonobj = new JSONObject(simplejson.toString());
         System.out.println(jsonobj.toString(4));
         try {
-            FileWriter file = new FileWriter ("Display-Products/src/main/resources/static/product.json");
+            FileWriter file = new FileWriter ("src/main/resources/static/product.json");
             file.write(jsonobj.toString());
             file.close();
         } catch (IOException e) {
@@ -36,12 +34,37 @@ public class ProductController {
         return "redirect:/pages/results";
     }
 
-
     @GetMapping("pages/results")
     String getProduct(Model model) throws JSONException {
         JSONObject product_data[] = ProductInfo.products();
+        boolean userLoggedIn = CognitoClient.loggedIn;
+        String idToken = CognitoClient.idToken;
+        System.out.println("userLoggedIn" + userLoggedIn);
+        model.addAttribute("idToken", idToken);
         model.addAttribute("vendors", product_data);
+        model.addAttribute("userLoggedIn", userLoggedIn);
+        //model.addAttribute("userLoggedOut", CognitoClient.loggedIn = false);
 
         return "pages/results";
     }
+
+    @PostMapping("product-saved")
+    public String saveProduct(@ModelAttribute ProductForm productForm, Model model) {
+        String productUrl = productForm.getProductUrl();
+        String imgUrl = productForm.getImgUrl();
+        String vendorName = productForm.getVendorName();
+        String productName = productForm.getProductName();
+        String productPrice = productForm.getProductPrice();
+        model.getAttribute("idToken");
+        System.out.println(productUrl);
+        System.out.println(imgUrl);
+        System.out.println(vendorName);
+        System.out.println(productName);
+        System.out.println(productPrice);
+        DynamoClient dbClient = new DynamoClient();
+        dbClient.putItemInTable(LoginController.userEmail, productUrl, productName, imgUrl, productPrice, vendorName);
+        model.addAttribute("productForm", productForm);
+        return "redirect:/pages/results";
+    }
+
 }

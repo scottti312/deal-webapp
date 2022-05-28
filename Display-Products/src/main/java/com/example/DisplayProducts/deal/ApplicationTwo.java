@@ -68,7 +68,7 @@ public class ApplicationTwo {
 			if(plugins != null) {			
 				for(String s : plugins) {
 					
-					String fullPath = "Display-Products/src/main/java/com/example/DisplayProducts/deal/plugins/" + s;
+					String fullPath = "src/main/java/com/example/DisplayProducts/deal/plugins/" + s;
 					String className = s.replaceFirst("[.][^.]+$", "");
 					
 					try {
@@ -108,7 +108,7 @@ public class ApplicationTwo {
 		JSONParser parser = new JSONParser();
 		
 		try {
-			Object obj = parser.parse(new FileReader("Display-Products/src/main/resources/config.json"));
+			Object obj = parser.parse(new FileReader("src/main/resources/config.json"));
 			JSONArray figure = new JSONArray();
 			figure.add(obj);
 			

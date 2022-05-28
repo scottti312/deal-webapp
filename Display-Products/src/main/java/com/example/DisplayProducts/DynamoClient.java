@@ -10,13 +10,19 @@ import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 import software.amazon.awssdk.services.dynamodb.model.ResourceNotFoundException;
+import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
+import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 public class DynamoClient {
     private final DynamoDbClient ddb;
+
     public DynamoClient() {
         ddb = createDynamoClient();
     }
@@ -55,37 +61,33 @@ public class DynamoClient {
                 .build();
     }
 
-    public void putItemInTable(String tableName,
-                                      String key,
-                                      String keyVal,
-                                      String productLink,
-                                      String productLinkValue,
-                                      String productTitle,
-                                      String productTitleValue,
-                                      String imageLink,
-                                      String imageLinkValue,
-                                      String price,
-                                      String priceValue,
-                                      String vendor,
-                                      String vendorValue) {
+    public void putItemInTable(String email,
+                               String productLinkValue,
+                               String productTitleValue,
+                               String imageLinkValue,
+                               String priceValue,
+                               String vendorValue) {
         HashMap<String, AttributeValue> itemValues = new HashMap<>();
-        itemValues.put(key, AttributeValue.builder().s(keyVal).build());
-        itemValues.put(productLink, AttributeValue.builder().s(productLinkValue).build());
-        itemValues.put(productTitle, AttributeValue.builder().s(productTitleValue).build());
-        itemValues.put(imageLink, AttributeValue.builder().s(imageLinkValue).build());
-        itemValues.put(price, AttributeValue.builder().s(priceValue).build());
-        itemValues.put(vendor, AttributeValue.builder().s(vendorValue).build());
+        String generatedString = Integer.toString(productLinkValue.hashCode());
+        System.out.println("generatedString = " + generatedString);
+        itemValues.put("entryId", AttributeValue.builder().s(generatedString).build());
+        itemValues.put("userId", AttributeValue.builder().s(email).build());
+        itemValues.put("productLink", AttributeValue.builder().s(productLinkValue).build());
+        itemValues.put("productTitle", AttributeValue.builder().s(productTitleValue).build());
+        itemValues.put("imageLink", AttributeValue.builder().s(imageLinkValue).build());
+        itemValues.put("price", AttributeValue.builder().s(priceValue).build());
+        itemValues.put("vendor", AttributeValue.builder().s(vendorValue).build());
         PutItemRequest request = PutItemRequest.builder()
-                .tableName(tableName)
+                .tableName("deal_wishlist")
                 .item(itemValues)
                 .build();
 
         try {
             ddb.putItem(request);
-            System.out.println(tableName +" was successfully updated");
+            System.out.println("deal-wishlist was successfully updated");
 
         } catch (ResourceNotFoundException e) {
-            System.err.format("Error: The Amazon DynamoDB table \"%s\" can't be found.\n", tableName);
+            System.err.format("Error: The Amazon DynamoDB table \"deal-wishlist\" can't be found.\n");
             System.err.println("Be sure that it exists and that you've typed its name correctly!");
             System.exit(1);
         } catch (DynamoDbException e) {
@@ -135,11 +137,43 @@ public class DynamoClient {
         }
     }
 
-    public List<Map<String, AttributeValue>> queryTable(String tableName,
-                          String partitionKeyName,
-                          String partitionKeyVal,
-                          String partitionAlias) {
+    public List<Map<String, AttributeValue>> scanTable(String tableName, String userId) {
+        try  {
+            Map<String, AttributeValue> expressionAttributeValues = new HashMap<String, AttributeValue>();
+            expressionAttributeValues.put(":userId", AttributeValue.builder().s(userId).build());
 
+            HashMap<String,String> attrNameAlias = new HashMap<String,String>();
+            attrNameAlias.put("#a", "userId");
+
+
+            ScanRequest scanRequest = ScanRequest.builder()
+                    .tableName(tableName)
+                    .filterExpression("#a = :userId")
+                    .expressionAttributeNames(attrNameAlias)
+                    .expressionAttributeValues(expressionAttributeValues)
+                    .build();
+
+            ScanResponse response = ddb.scan(scanRequest);
+            // for (Map<String, AttributeValue> item : response.items()) {
+            //     Set<String> keys = item.keySet();
+            //     for (String key : keys) {
+            //         System.out.println ("The key name is "+key +"\n" );
+            //         System.out.println("The value is "+item.get(key).s());
+            //     }
+            // }
+            return response.items();
+
+        } catch (DynamoDbException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return null;
+    }
+
+    public List<Map<String, AttributeValue>> queryTable(String tableName,
+                                                        String partitionKeyName,
+                                                        String partitionKeyVal) {
+        String partitionAlias = "#a";
         // Set up an alias for the partition key name in case it's a reserved word.
         HashMap<String,String> attrNameAlias = new HashMap<String,String>();
         attrNameAlias.put(partitionAlias, partitionKeyName);

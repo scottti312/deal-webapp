@@ -9,7 +9,9 @@ public class DisplayProductsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DisplayProductsApplication.class, args);
-		DynamoClient dc = new DynamoClient();
-		System.out.println(dc.queryTable("deal-wishlist", "userid", "whatever", "#a"));
+
+		/*DynamoClient dbClient = new DynamoClient();
+		System.out.println(dbClient.queryTable("deal-wishlist", "userId", "user@yahoo.com", "#a").get(0).get("productTitle"));*/
+
 	}
 }

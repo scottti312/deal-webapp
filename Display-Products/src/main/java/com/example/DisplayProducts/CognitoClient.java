@@ -17,8 +17,8 @@ import java.util.Map;
 public class CognitoClient {
 
     private final AWSCognitoIdentityProvider client ;
-    private final String clientId = "clientId";
-    private final String userPool = "userPool";
+    private final String clientId = "";
+    private final String userPool = "";
     public static boolean loggedIn = false;
     public static String idToken = "";
     public static String accessToken = "";
@@ -28,7 +28,7 @@ public class CognitoClient {
     }
 
     private AWSCognitoIdentityProvider createCognitoClient() {
-        AWSCredentials cred = new BasicAWSCredentials("accessKey", "secretKey");
+        AWSCredentials cred = new BasicAWSCredentials("", "");
         AWSCredentialsProvider credProvider = new AWSStaticCredentialsProvider(cred);
         return AWSCognitoIdentityProviderClientBuilder.standard()
                 .withCredentials(credProvider)
