@@ -114,7 +114,7 @@
       <div th:if="${!vendor.getString(&quot;price&quot;).equals(&quot;null&quot;)}"
            th:text="'$'+ ${vendor.getString(&quot;price&quot;)}"></div>
       </div>
-      <form action="#" th:action="@{/product-saved}" th:object="${productForm}" method="post">
+      <form th:if="${userLoggedIn}" action="#" th:action="@{/product-saved}" th:object="${productForm}" method="post">
         <input type = "hidden" class = "form-control" id = "productUrl" name = "productUrl" th:value = "${vendor.getString(&quot;link&quot;)}"  />
         <input type = "hidden" class = "form-control" id = "imgUrl" name = "imgUrl" th:value = "${vendor.getString(&quot;image&quot;)}"  />
         <input type = "hidden" class = "form-control" id = "vendorName" name = "vendorName" th:value = "${vendor.getString(&quot;vendor&quot;)}"  />

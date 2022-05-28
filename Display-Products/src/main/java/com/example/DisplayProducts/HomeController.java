@@ -12,7 +12,7 @@ public class HomeController {
     @GetMapping
     String home(Model model)  {
         model.addAttribute("userLoggedIn", CognitoClient.loggedIn);
-        model.addAttribute("userLoggedOut", CognitoClient.loggedIn = false);
+        System.out.println(CognitoClient.loggedIn);
         return "home";
     }
 }

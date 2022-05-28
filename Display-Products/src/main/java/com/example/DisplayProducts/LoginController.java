@@ -1,5 +1,6 @@
 package com.example.DisplayProducts;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class LoginController {
 
-    public boolean loggedIn = false;
     CognitoClient cc = new CognitoClient();
     public static String userEmail = "";
 
@@ -22,12 +22,17 @@ public class LoginController {
         String email = loginForm.getEmailAddress();
         String password = loginForm.getPassword();
         cc.login(email, password);
-        loggedIn = cc.loggedIn;
-        System.out.println(loggedIn);
         System.out.println(email);
         userEmail = email;
         System.out.println(password);
         model.addAttribute("loginForm", loginForm);
         return "pages/login-success";
+    }
+
+    @PostMapping("logout")
+    public String logout(@RequestHeader(value = HttpHeaders.REFERER, required = false) final String referrer) {
+        CognitoClient.loggedIn = false;
+        userEmail = "";
+        return "redirect:" + referrer;
     }
 }

@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class CognitoClient {
 
-    private final AWSCognitoIdentityProvider client ;
+    private final AWSCognitoIdentityProvider client;
     private final String clientId = "";
     private final String userPool = "";
     public static boolean loggedIn = false;
