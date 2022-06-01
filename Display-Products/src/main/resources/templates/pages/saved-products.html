@@ -11,7 +11,15 @@
         body {
             font-family: Arial, Helvetica, sans-serif;
             margin: 0;
+            font-size: 15pt;
         }
+
+        price {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            font-size: 20pt;
+        }
+
 
         section {
             display: -webkit-flex;
@@ -93,6 +101,40 @@
 
 <div th:if="${!userLoggedIn}">
     <div th:replace="fragments :: navBarSearch"></div>
+</div>
+
+<section>
+
+</section>
+
+<div class="container">
+    <th:block th:each="result, itr : ${results}" th:with="rowSize=3">
+        <div class="row p-4" th:remove="${itr.index % rowSize == 0} ? none : tag">
+            <div class="col">
+                <div><a th:href="${result.get(&quot;productLink&quot;).s()}"><img
+                        th:src="${result.get(&quot;imageLink&quot;).s()}" class="img-thumbnail" width="300" height="300"/></a></div>
+                <div>
+                    <div
+                         th:text="${result.get(&quot;vendor&quot;).s()}"></div>
+                    <a th:href="${result.get(&quot;productLink&quot;).s()}">
+                        <div
+                             th:text="${result.get(&quot;productTitle&quot;).s()}"></div>
+                    </a>
+                    <price>
+                        <div
+                            th:text="${result.get(&quot;price&quot;).s()}">
+                        </div>
+                    </price>
+                    <form th:if="${userLoggedIn}" action="#" th:action="@{/product-removed}" th:object="${productForm}" method="post">
+                        <input type = "hidden" class = "form-control" id = "productUrl" name = "productUrl" th:value = "${result.get(&quot;productLink&quot;).s()}"  />
+                        <button type="submit" class="btn btn-outline-success btn-floating" data-mdb-ripple-color="dark">
+                            <i class="fas fa-star"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <th:block th:if="${itr.index % rowSize == rowSize-1 || itr.index == results.size-1}" th:utext="'</div>'"/>
+    </th:block>
 </div>
 
 
