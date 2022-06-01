@@ -22,9 +22,7 @@ public class LoginController {
         String email = loginForm.getEmailAddress();
         String password = loginForm.getPassword();
         cc.login(email, password);
-        System.out.println(email);
         userEmail = email;
-        System.out.println(password);
         model.addAttribute("loginForm", loginForm);
         return "pages/login-success";
     }

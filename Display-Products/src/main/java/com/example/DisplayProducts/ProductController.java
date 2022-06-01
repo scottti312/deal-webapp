@@ -16,7 +16,6 @@ public class ProductController {
 
     @PostMapping("search")
     public String searchProduct(@RequestParam String productName) throws JSONException {
-        System.out.println(productName);
         if (productName.equals("")) {
             return "home";
         }
@@ -25,7 +24,7 @@ public class ProductController {
         JSONObject jsonobj = new JSONObject(simplejson.toString());
         System.out.println(jsonobj.toString(4));
         try {
-            FileWriter file = new FileWriter ("src/main/resources/static/product.json");
+            FileWriter file = new FileWriter ("Display-Products/src/main/resources/static/product.json");
             file.write(jsonobj.toString());
             file.close();
         } catch (IOException e) {
@@ -56,11 +55,6 @@ public class ProductController {
         String productName = productForm.getProductName();
         String productPrice = productForm.getProductPrice();
         model.getAttribute("idToken");
-        System.out.println(productUrl);
-        System.out.println(imgUrl);
-        System.out.println(vendorName);
-        System.out.println(productName);
-        System.out.println(productPrice);
         DynamoClient dbClient = new DynamoClient();
         dbClient.putItemInTable(LoginController.userEmail, productUrl, productName, imgUrl, productPrice, vendorName);
         model.addAttribute("productForm", productForm);

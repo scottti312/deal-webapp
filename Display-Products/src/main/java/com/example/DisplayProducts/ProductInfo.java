@@ -13,18 +13,18 @@ import org.json.JSONObject;
 public class ProductInfo {
     public static JSONObject[] products() {
         // Change to relative path
-        String path = "src/main/resources/static/product.json";
+        String path = "Display-Products/src/main/resources/static/product.json";
         try {
             String contents = new String((Files.readAllBytes(Paths.get(path))));
             JSONObject o = new JSONObject(contents);
-            Iterator<String> keys = o.keys();
+            Iterator<?> keys = o.keys();
 
             int itr = 0;
 
             List<JSONObject> jList = new ArrayList<JSONObject>();
             if (o.length() != 0) {
                 while(keys.hasNext()) {
-                    String key = keys.next();
+                    String key = (String) keys.next();
                     if(o.get(key) instanceof JSONObject) {
                         if (!o.getJSONObject(key).getString("title").equals("null")) {
                             jList.add(o.getJSONObject(key));

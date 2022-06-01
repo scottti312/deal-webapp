@@ -38,7 +38,6 @@ public class SavedProductsController {
     public String removeProduct(@ModelAttribute ProductForm productForm, Model model) {
         String productUrl = productForm.getProductUrl();
         model.getAttribute("idToken");
-        //System.out.println(productUrl);
         System.out.println(LoginController.userEmail);
         DynamoClient dbClient = new DynamoClient();
         String preHash = productUrl + LoginController.userEmail;
