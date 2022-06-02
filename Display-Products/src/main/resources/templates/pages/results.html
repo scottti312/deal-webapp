@@ -57,6 +57,7 @@
         flex-direction: column;
       }
     }
+}
 
     box {
       float: left;
@@ -84,6 +85,10 @@
       font-size: 25px;
       padding: 3px 0px 2px 15px;
     }
+
+    .link { color: #000000 }
+    .link:hover { color: #99fa88 }
+
   </style>
 </head>
 
@@ -111,13 +116,17 @@
     <div>
       <div th:if="${!vendor.getString(&quot;title&quot;).equals(&quot;null&quot;)}"
            th:text="${vendor.getString(&quot;vendor&quot;)}"></div>
-      <a th:href="${vendor.getString(&quot;link&quot;)}">
+      <a class="link" style="text-decoration:none; font-weight:bold;" th:href="${vendor.getString(&quot;link&quot;)}">
         <div th:if="${!vendor.getString(&quot;title&quot;).equals(&quot;null&quot;)}"
              th:text="${vendor.getString(&quot;title&quot;)}"></div>
       </a>
       <div>
+
+       <price>
       <div th:if="${!vendor.getString(&quot;price&quot;).equals(&quot;null&quot;)}"
            th:text="'$'+ ${vendor.getString(&quot;price&quot;)}"></div>
+       </price>
+
       </div>
       <form th:if="${userLoggedIn}" action="#" th:action="@{/product-saved}" th:object="${productForm}" method="post">
         <input type = "hidden" class = "form-control" id = "productUrl" name = "productUrl" th:value = "${vendor.getString(&quot;link&quot;)}"  />
