@@ -57,7 +57,12 @@
         flex-direction: column;
       }
     }
-}
+
+    .thumbnail {
+      width: 300px;
+      height: 300px;
+      object-fit: contain;
+    }
 
     box {
       float: left;
@@ -112,11 +117,11 @@
   <div class="col">
     <div><a th:href="${vendor.getString(&quot;link&quot;)}"><img
             th:if="${!vendor.getString(&quot;image&quot;).equals(&quot;null&quot;)}"
-            th:src="${vendor.getString(&quot;image&quot;)}" class="img-thumbnail" width="300" height="300"/></a></div>
+            th:src="${vendor.getString(&quot;image&quot;)}" class="img-thumbnail thumbnail" width="100" height="100"/></a></div>
     <div>
       <div th:if="${!vendor.getString(&quot;title&quot;).equals(&quot;null&quot;)}"
            th:text="${vendor.getString(&quot;vendor&quot;)}"></div>
-      <a class="link" style="text-decoration:none; font-weight:bold;" th:href="${vendor.getString(&quot;link&quot;)}">
+      <a class="link" style="text-decoration:none; font-weight:bold; font-size:16px;" th:href="${vendor.getString(&quot;link&quot;)}">
         <div th:if="${!vendor.getString(&quot;title&quot;).equals(&quot;null&quot;)}"
              th:text="${vendor.getString(&quot;title&quot;)}"></div>
       </a>
