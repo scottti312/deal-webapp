@@ -14,6 +14,9 @@ public class SavedProductsController {
 
     @GetMapping("saved-products")
     public String savedProducts(Model model)  {
+        if (!CognitoClient.loggedIn) {
+            return "redirect:/login";
+        }
         DynamoClient dbc = new DynamoClient();
         List<Map<String, AttributeValue>> results;
         results = dbc.scanTable("deal_wishlist", LoginController.userEmail);

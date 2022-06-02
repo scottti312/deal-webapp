@@ -42,7 +42,6 @@ public class ProductController {
         model.addAttribute("idToken", idToken);
         model.addAttribute("vendors", product_data);
         model.addAttribute("userLoggedIn", userLoggedIn);
-        //model.addAttribute("userLoggedOut", CognitoClient.loggedIn = false);
 
         return "pages/results";
     }
