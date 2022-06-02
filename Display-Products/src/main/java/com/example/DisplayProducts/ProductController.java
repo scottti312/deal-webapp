@@ -24,7 +24,7 @@ public class ProductController {
         JSONObject jsonobj = new JSONObject(simplejson.toString());
         System.out.println(jsonobj.toString(4));
         try {
-            FileWriter file = new FileWriter ("Display-Products/src/main/resources/static/product.json");
+            FileWriter file = new FileWriter ("src/main/resources/static/product.json");
             file.write(jsonobj.toString());
             file.close();
         } catch (IOException e) {
