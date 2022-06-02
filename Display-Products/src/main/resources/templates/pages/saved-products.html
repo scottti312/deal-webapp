@@ -129,8 +129,8 @@
                     </price>
                     <form th:if="${userLoggedIn}" action="#" th:action="@{/product-removed}" th:object="${productForm}" method="post">
                         <input type = "hidden" class = "form-control" id = "productUrl" name = "productUrl" th:value = "${result.get(&quot;productLink&quot;).s()}"  />
-                        <button type="submit" class="btn btn-outline-success btn-floating" data-mdb-ripple-color="dark">
-                            <i class="fas fa-star"></i>
+                        <button type="submit" class="btn btn-outline-danger" data-mdb-ripple-color="dark">
+                            <i class="fas fa-trash-alt"></i>
                         </button>
                     </form>
                 </div>
