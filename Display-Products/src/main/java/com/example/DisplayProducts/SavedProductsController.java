@@ -3,8 +3,6 @@ package com.example.DisplayProducts;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +36,6 @@ public class SavedProductsController {
     public String removeProduct(@ModelAttribute ProductForm productForm, Model model) {
         String productUrl = productForm.getProductUrl();
         model.getAttribute("idToken");
-        //System.out.println(productUrl);
         System.out.println(LoginController.userEmail);
         DynamoClient dbClient = new DynamoClient();
         String preHash = productUrl + LoginController.userEmail;

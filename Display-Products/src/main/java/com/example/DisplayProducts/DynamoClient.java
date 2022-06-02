@@ -40,7 +40,6 @@ public class DynamoClient {
         HashMap<String, AttributeValue> itemValues = new HashMap<>();
         String prehash = productLinkValue + email;
         String generatedString = Integer.toString(prehash.hashCode());
-        System.out.println("generatedString = " + generatedString);
         itemValues.put("entryId", AttributeValue.builder().s(generatedString).build());
         itemValues.put("userId", AttributeValue.builder().s(email).build());
         itemValues.put("productLink", AttributeValue.builder().s(productLinkValue).build());
@@ -75,7 +74,6 @@ public class DynamoClient {
         keyToGet.put("userId", AttributeValue.builder()
                 .s(email)
                 .build());
-        System.out.println(keyToGet);
         DeleteItemRequest deleteReq = DeleteItemRequest.builder()
                 .tableName("deal_wishlist")
                 .key(keyToGet)

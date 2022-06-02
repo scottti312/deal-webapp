@@ -9,7 +9,6 @@ import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
 import com.amazonaws.services.cognitoidp.model.*;
 
-import software.amazon.awssdk.services.cognitoidentityprovider.model.RevokeTokenRequest;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -28,7 +27,9 @@ public class CognitoClient {
     }
 
     private AWSCognitoIdentityProvider createCognitoClient() {
-        AWSCredentials cred = new BasicAWSCredentials("", "");
+
+        AWSCredentials cred = new BasicAWSCredentials("accessKey", "secretKey");
+
         AWSCredentialsProvider credProvider = new AWSStaticCredentialsProvider(cred);
         return AWSCognitoIdentityProviderClientBuilder.standard()
                 .withCredentials(credProvider)
@@ -60,7 +61,6 @@ public class CognitoClient {
                 .withAuthParameters(authParams);
         AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
         AuthenticationResultType resultType = authResult.getAuthenticationResult();
-        System.out.println(resultType);
         loggedIn = true;
          return new LinkedHashMap<String, String>() {{
             put("idToken", resultType.getIdToken());
