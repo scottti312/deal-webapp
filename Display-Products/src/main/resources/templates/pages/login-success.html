@@ -82,6 +82,11 @@ redbox {
   padding: 15px 50px 15px 50px;
 }
 
+.search-box {
+  display: flex;
+  padding: 0px 300px 0px 0px;
+}
+
 </style>
     <script type = "text/javascript" src = "DealsScript.js"></script>
 </head>
@@ -89,7 +94,7 @@ redbox {
 <body style="background-color:white;">
 
 
-<div th:replace="fragments :: navBarSearch"></div>
+<div th:replace="fragments :: loggedInNavBarSearch"></div>
 
 <section></section>
 <section><p></p></section>
