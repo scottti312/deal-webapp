@@ -11,6 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.beust.ah.A;
 import com.example.DisplayProducts.dealinterface.IVendor;
 
 import java.net.URL;
@@ -20,8 +21,11 @@ import java.util.*;
 
 
 public class ApplicationTwo {
+
 	private static ArrayList<String> plugins = null;
-	
+
+	public static String superPath = "Display-Products/src/";
+
 	public String testString(String name) {
 		return name;
 	}
@@ -66,9 +70,8 @@ public class ApplicationTwo {
 		
 		try {
 			if(plugins != null) {			
-				for(String s : plugins) {
-					
-					String fullPath = "src/main/java/com/example/DisplayProducts/deal/plugins/" + s;
+				for(String s : plugins) {	
+					String fullPath = superPath + "main/java/com/example/DisplayProducts/deal/plugins/" + s;
 					String className = s.replaceFirst("[.][^.]+$", "");
 					
 					try {
@@ -108,7 +111,7 @@ public class ApplicationTwo {
 		JSONParser parser = new JSONParser();
 		
 		try {
-			Object obj = parser.parse(new FileReader("src/main/resources/config.json"));
+			Object obj = parser.parse(new FileReader(superPath + "main/resources/config.json"));
 			JSONArray figure = new JSONArray();
 			figure.add(obj);
 			
