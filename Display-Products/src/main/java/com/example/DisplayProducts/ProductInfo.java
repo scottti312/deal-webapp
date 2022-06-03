@@ -9,11 +9,13 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.DisplayProducts.deal.ApplicationTwo;
+
 
 public class ProductInfo {
     public static JSONObject[] products() {
         // Change to relative path
-        String path = "Display-Products/src/main/resources/static/product.json";
+        String path = ApplicationTwo.superPath + "main/resources/static/product.json";
         try {
             String contents = new String((Files.readAllBytes(Paths.get(path))));
             JSONObject o = new JSONObject(contents);
